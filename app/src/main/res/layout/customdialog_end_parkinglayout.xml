@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:padding="@dimen/_7sdp">
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/app_name"
+            android:textSize="@dimen/sp_20"
+            android:padding="@dimen/_7sdp"
+            android:textStyle="bold"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/bottom_line_color"
+            android:alpha="0.4"
+            android:layout_marginTop="@dimen/_3sdp"/>
+        <TextView
+            android:id="@+id/msg_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/sp_20"
+            android:text="@string/btn_ok"
+            android:layout_marginBottom="@dimen/_7sdp"
+            android:textSize="@dimen/sp_16"/>
+
+        <LinearLayout
+            android:id="@+id/ll_pass_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_7sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@color/grey"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/ll_check_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/check_pass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_18"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:text="@string/check_text"/>
+            </LinearLayout>
+
+
+            <Spinner
+                android:id="@+id/sp_store"
+                android:layout_width="match_parent"
+                android:textAlignment="center"
+                android:layout_height="@dimen/_30sdp"
+                android:textColor="@color/black"
+                android:spinnerMode="dropdown"
+                android:overlapAnchor="false"
+                android:layout_margin="@dimen/_7sdp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:background="@drawable/spinner_background" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnno"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/_37sdp"
+                android:text="@string/btnNo"
+                android:layout_marginTop="@dimen/sp_20"
+                android:textColor="@color/white"
+                android:layout_margin="@dimen/_7sdp"
+                android:background="@color/colorAccent"
+                android:textSize="@dimen/sp_16" />
+            <Button
+                android:id="@+id/btnyes"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/_37sdp"
+                android:text="@string/btnYes"
+                android:layout_marginTop="@dimen/sp_20"
+                android:textColor="@color/white"
+                android:layout_margin="@dimen/_7sdp"
+                android:background="@color/green"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

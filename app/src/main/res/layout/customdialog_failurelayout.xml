@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/congratulation_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="4dp"
+            android:layout_marginTop="@dimen/_28sdp"
+            app:cardBackgroundColor="#FAFAFA"
+            app:cardElevation="0dp"
+            android:layout_gravity="bottom">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_40sdp"
+                    android:text="@string/app_name"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/msg_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_28sdp"
+                    android:layout_marginRight="@dimen/_28sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:gravity="center"
+                    android:textColor="@color/red"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btnOk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="@dimen/_65sdp"
+                    android:layout_marginRight="@dimen/_65sdp"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:background="@drawable/failure_button"
+                    android:text="@string/ok"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center_horizontal|top"
+            android:padding="1dp"
+            android:src="@drawable/cancel" />
+
+    </FrameLayout>
+</LinearLayout>

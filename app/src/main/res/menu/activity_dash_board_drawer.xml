@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/it_start_parking"
+            android:icon="@drawable/start"
+            android:title="@string/start_parking" />
+        <item
+            android:id="@+id/it_end_parking"
+            android:icon="@drawable/stop"
+            android:title="@string/end_parking" />
+        <item
+            android:id="@+id/it_booking_summary"
+            android:icon="@drawable/ic_format_list"
+            android:title="@string/parking_summary" />
+        <item
+            android:id="@+id/it_adv_booking_list"
+            app:actionViewClass="android.widget.TextView"
+            android:icon="@drawable/ic_format_list"
+            android:visible="false"
+            android:title="@string/AdvanceBook" />
+        <item
+            android:id="@+id/it_railway_parking"
+            android:icon="@drawable/ic_directions_subway"
+            android:visible="false"
+            android:title="@string/acess_control_head" />
+        <item
+            android:id="@+id/it_terms_condition"
+            android:icon="@drawable/term"
+            android:visible="false"
+            android:title="@string/term_service" />
+        <item
+            android:id="@+id/it_privacy"
+            android:icon="@drawable/privacy"
+            android:visible="false"
+            android:title="@string/privacy_policy" />
+        <item
+            android:id="@+id/it_printer_setting"
+            android:icon="@drawable/printer"
+            android:visible="false"
+            android:title="@string/printer_setting" />
+        <item
+            android:id="@+id/it_net_mode"
+            android:icon="@drawable/wifi"
+            android:visible="false"
+            android:title="@string/change_netwrk_mode" />
+        <item
+            android:id="@+id/syncnow"
+            android:icon="@drawable/synccon"
+            android:visible="false"
+            android:title="@string/SyncNow" />
+
+        <item
+            android:id="@+id/it_notification"
+            app:actionViewClass="android.widget.TextView"
+            android:icon="@drawable/ic_notifications_new"
+            android:visible="false"
+            android:title="@string/notification" />
+        <item
+            android:id="@+id/it_boombarrier"
+            app:actionViewClass="android.widget.TextView"
+            android:icon="@drawable/access"
+            android:visible="false"
+            android:title="@string/configure_boom" />
+
+        <item
+            android:id="@+id/it_logout"
+            android:icon="@drawable/logout"
+            android:title="@string/logout" />
+
+        <item
+            android:id="@+id/it_about"
+            android:icon="@drawable/ic_info"
+            android:title="@string/about_app" />
+
+    </group>
+
+</menu>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/parking"
+    tools:context="com.innovus.vyoma.s_parking_agentApollo.AlternativeMobileNumberActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_100"
+        android:orientation="vertical" >
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:background="@drawable/gray_border"
+            android:layout_marginTop="@dimen/dp_20"
+            android:paddingLeft="10dp"
+            android:orientation="horizontal"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_30">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/park_call" />
+                    <TextView
+                        android:id="@+id/tv_alt_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:text="@string/Register_Mobile_Number"
+                        android:imeOptions="actionNext"
+                        android:maxLines="1"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/sp_20"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:paddingLeft="10dp"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_20">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/smartphone_call" />
+                    <EditText
+                        android:id="@+id/et_alt_ph_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/Alternative_Number"
+                        android:background="@null"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="#000"
+                        android:imeOptions="actionNext"
+                        android:maxLength="10"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:textSize="@dimen/sp_20"
+                        android:inputType="number"
+                        android:gravity="center"
+
+                        android:textAllCaps="true"
+                        android:textStyle="bold"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/buttonborder"
+            android:layout_marginTop="@dimen/dp_50"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_30">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/start" />
+                    <Button
+                        android:id="@+id/btn_Enter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/StartParking"
+                        android:background="@null"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/sp_20"
+                        android:textColor="#fff" />
+                </RelativeLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+</RelativeLayout>

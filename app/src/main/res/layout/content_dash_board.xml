@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_dash_board"
+    android:keepScreenOn="true"
+    android:id="@+id/listlay">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_overlay"
+        android:alpha="0.8">
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="@dimen/_30sdp"
+        tools:context=".SmartParking"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:ignore="MissingConstraints">
+        <LinearLayout
+            android:id="@+id/ll_input_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:gravity="center"
+            >
+            <EditText
+                android:id="@+id/input_search"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_80"
+                android:inputType="textCapCharacters"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/sp_20"
+                android:textColor="@color/black"
+                android:padding="@dimen/_3sdp"
+                android:gravity="center"
+                android:background="@drawable/border"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_3sdp"
+                android:hint="@string/search_vechile" />
+            <Button
+                android:id="@+id/btn_find"
+                android:layout_width="@dimen/dp_150"
+                android:layout_height="@dimen/dp_50"
+                android:text="@string/find"
+                android:textSize="@dimen/sp_20"
+                android:textColor="@color/white"
+                android:drawablePadding="@dimen/dp_10"
+                android:drawableTint="@color/white"
+                android:padding="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/buttonborder"
+                android:drawableRight="@drawable/search">
+
+            </Button>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/ll_input_search"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_vehicle_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_3sdp"
+                android:scrollbars="vertical"
+                android:layout_below="@+id/input_search"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_vehicle_list_offline"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_3sdp"
+                android:scrollbars="vertical"
+                android:layout_below="@+id/input_search"/>
+            <RelativeLayout
+                android:id="@+id/no_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:background="@android:color/transparent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_centerInParent="true">
+                    <ImageView
+                        android:id="@+id/noitem_in_cart"
+                        android:layout_width="@dimen/dp_200"
+                        android:layout_height="@dimen/dp_200"
+                        android:background="@android:color/transparent"
+                        android:scaleType="centerInside"
+                        android:padding="@dimen/dp_60"/>
+                    <TextView
+                        android:id="@+id/tv_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_24"
+                        android:text="@string/no_item"
+                        android:singleLine="false"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/dp_10"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

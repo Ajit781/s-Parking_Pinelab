@@ -1,0 +1,211 @@
+{
+  "project_info": {
+    "project_number": "235706737765",
+    "firebase_url": "https://new-parking-app.firebaseio.com",
+    "project_id": "new-parking-app",
+    "storage_bucket": "new-parking-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235706737765:android:8c8b54c99658dbd6",
+        "android_client_info": {
+          "package_name": "com.innovus.vyoma.s_parking_agentApollo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235706737765-fgk622b7apkkpbouog9705hohupgar1v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.innovus.vyoma.s_parking_agentApollo",
+            "certificate_hash": "f03e9d418b357517f91a8b3502f3b87e7022dba6"
+          }
+        },
+        {
+          "client_id": "235706737765-9u17cmeu8gj2bera133le3fqfasa3ih5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNoVmbpZYJY5zGRCEfYBgPPdvARy3r8H0"
+        },
+        {
+          "current_key": "AIzaSyCDlhm5Rtx0q3as0-fDGqjBS890-D7o2U8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235706737765-9u17cmeu8gj2bera133le3fqfasa3ih5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235706737765:android:021beebc13221638",
+        "android_client_info": {
+          "package_name": "com.vyoma.innovus.lepark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235706737765-i9pm83g0s9qitdne4fqrdcj7p3gl1ir9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vyoma.innovus.lepark",
+            "certificate_hash": "f03e9d418b357517f91a8b3502f3b87e7022dba6"
+          }
+        },
+        {
+          "client_id": "235706737765-r58rs1h2tff2gruoad9otffv1068br0t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vyoma.innovus.lepark",
+            "certificate_hash": "16679fd62a2a316c3d3465c24f07526604e3e44c"
+          }
+        },
+        {
+          "client_id": "235706737765-9u17cmeu8gj2bera133le3fqfasa3ih5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNoVmbpZYJY5zGRCEfYBgPPdvARy3r8H0"
+        },
+        {
+          "current_key": "AIzaSyCDlhm5Rtx0q3as0-fDGqjBS890-D7o2U8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235706737765-9u17cmeu8gj2bera133le3fqfasa3ih5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235706737765:android:98b234146c9084d4",
+        "android_client_info": {
+          "package_name": "com.vyoma.innovus.leparkowner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235706737765-nbre7egbjsld153la444c8a92tc11h6i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vyoma.innovus.leparkowner",
+            "certificate_hash": "16679fd62a2a316c3d3465c24f07526604e3e44c"
+          }
+        },
+        {
+          "client_id": "235706737765-9u17cmeu8gj2bera133le3fqfasa3ih5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNoVmbpZYJY5zGRCEfYBgPPdvARy3r8H0"
+        },
+        {
+          "current_key": "AIzaSyCDlhm5Rtx0q3as0-fDGqjBS890-D7o2U8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235706737765-9u17cmeu8gj2bera133le3fqfasa3ih5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235706737765:android:694c57fcf531eed5",
+        "android_client_info": {
+          "package_name": "com.vyoma.innovus.sParking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235706737765-10him0qbdjgo0fackjruhnqm7s5uhs9u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vyoma.innovus.sParking",
+            "certificate_hash": "6c45a759eeeb40f50d53d43c3d9d121ac634f096"
+          }
+        },
+        {
+          "client_id": "235706737765-gce6r7nccqat0qduvh899vj88qhele56.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vyoma.innovus.sParking",
+            "certificate_hash": "16679fd62a2a316c3d3465c24f07526604e3e44c"
+          }
+        },
+        {
+          "client_id": "235706737765-8gq73br2pl7r4rbq3ofu6tf5maf8jc28.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vyoma.innovus.sParking",
+            "certificate_hash": "ab530429c8df57a03804da5a3caecd3f0ceb4c20"
+          }
+        },
+        {
+          "client_id": "235706737765-bahku8194801itghu23tu7kiednsfnlb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vyoma.innovus.sParking",
+            "certificate_hash": "e39b5a1ad3fd1b32bac98c3060be89f7b7f72a7a"
+          }
+        },
+        {
+          "client_id": "235706737765-rkfcqpe1qj7nf708bg4306m09aknfevg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vyoma.innovus.sParking",
+            "certificate_hash": "f03e9d418b357517f91a8b3502f3b87e7022dba6"
+          }
+        },
+        {
+          "client_id": "235706737765-9u17cmeu8gj2bera133le3fqfasa3ih5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNoVmbpZYJY5zGRCEfYBgPPdvARy3r8H0"
+        },
+        {
+          "current_key": "AIzaSyCDlhm5Rtx0q3as0-fDGqjBS890-D7o2U8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235706737765-9u17cmeu8gj2bera133le3fqfasa3ih5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

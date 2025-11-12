@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.zpos.demo"
+          android:versionCode="1"
+          android:versionName="1.2.20180528_D">
+
+
+    <uses-permission android:name="android.permission.NFC"/>
+    <!-- SD卡操作权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE">
+    </uses-permission>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.SERIAL_PORT"/>
+    <!-- QR TEST -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- 粗略定位授权 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- 精细定位授权 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!-- 模拟定位授权 -->
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
+
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
+    <uses-permission
+        android:name="android.permission.STATUS_BAR"
+        tools:ignore="ProtectedPermissions"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar">
+        <activity
+            android:name="com.zpos.demo.CardtestActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.nfc.action.TECH_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/nfc"/>
+        </activity>
+        <activity
+            android:name="com.zpos.demo.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.google.zxing.client.android.CaptureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
+        <activity
+            android:name="com.zxing.android.QRtestActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.zpos.demo.Z90FingerprintActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.zpos.demo.FingerprintActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.google.zxing.client.android.PreferencesActivity"
+            android:label="@string/preferences_name"
+            android:stateNotNeeded="true"/>
+        <activity
+            android:name="com.google.zxing.client.android.HelpActivity"
+            android:label="@string/menu_help"
+            android:screenOrientation="user"
+            android:stateNotNeeded="true"/>
+    </application>
+
+</manifest>

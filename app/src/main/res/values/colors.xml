@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bottom_line_color">#8e8e8e</color>
+
+    <color name="gray_edit_profile">#cccccc</color>
+
+    <color name="text_default">#2a2a2a</color>
+    <color name="green">#008000</color>
+    <color name="orrange">#56105F</color>
+    <color name="red">#7e1125</color>
+    <color name="rednoti">#EF4324</color>
+    <color name="cardViewBackground">#f4efef</color>
+
+    <color name="blue_Lotus">#008CE6</color>
+    <color name="midnight_Blue">#151B54</color>
+
+    <color name="dash_background_color">#E0E0E0</color>
+    <color name="progress_color">#1abc9c</color>
+    <color name="add_button_color">#FF079F1B</color>
+    <color name="colorPrimary">#321B14</color>
+    <color name="colorCardView">#321B14</color>
+    <color name="colorPrimaryDark">#000</color>
+    <color name="colorAccent">#fd0112</color>
+    <color name="colorback">#e8eaed</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="lightgrey">#D3D3D3</color>
+    <color name="grey">#e4e2e2</color>
+    <color name="silver">#808080</color>
+    <color name="white">#fff</color>
+    <color name="black">#000</color>
+    <color name="small_text">#818181</color>
+    <color name="float_gray">#B2B5B8</color>
+</resources>

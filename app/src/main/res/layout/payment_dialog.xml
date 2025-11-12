@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_element"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_rect_shape"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layout_event_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/payment_mood"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="@dimen/dp_20"
+            android:background="@drawable/dotted_box"
+            android:padding="@dimen/dp_10"/>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_50">
+
+            <Button
+                android:id="@+id/bt_pay_type_cash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cash"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_16"
+                android:background="@color/green"
+                android:layout_marginBottom="@dimen/dp_50"
+                android:visibility="gone"/>
+            <Button
+                android:id="@+id/bt_pay_type_paytm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/payment_mode"
+                android:textColor="@color/black"
+                android:background="@color/green"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginBottom="@dimen/dp_50"/>
+
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

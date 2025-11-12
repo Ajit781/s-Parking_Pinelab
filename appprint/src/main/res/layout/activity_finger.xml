@@ -1,0 +1,111 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <EditText
+        android:id="@+id/et_finger_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Input finger id"
+        android:text="0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/bt_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Capture"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/bt_get_feature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get feature"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/bt_iso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get ISO feature"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/bt_enroll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enroll"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/bt_verify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Verify"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/bt_get_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get count"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/bt_get_enrolled_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get enrolled list"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/bt_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/bt_delete_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete all"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/f_status"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="" />
+
+    <ImageView
+        android:id="@+id/iv_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher"
+        android:visibility="gone" />
+
+</LinearLayout>

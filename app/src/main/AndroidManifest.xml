@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.innovus.vyoma.s_parking_agentApollo">
+
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="com.pax.permission.ICC" />
+    <uses-permission android:name="com.pax.permission.PICC" />
+    <uses-permission android:name="com.pax.permission.MAGCARD" />
+    <uses-permission android:name="com.pax.permission.PRINTER" />
+    <uses-permission android:name="com.pax.permission.PED" />
+
+
+    <queries>
+        <package android:name="com.pinelabs.masterapp" />
+    </queries>
+
+    <uses-feature
+        android:name="android.hardware.usb.host"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" /> <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_Network_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:ignore="CoarseFineLocation" /> <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+    <!--
+ <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    -->
+    <uses-permission
+        android:name="android.permission.CLEAR_APP_CACHE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- Google Cloud Messaging -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="purplebag.com.purplebag.permission.C2D_MESSAGE" />
+
+    <supports-screens android:anyDensity="true" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_PRIVILEGED"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" /> <!-- screen lock -->
+    <!--
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    -->
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.TELPO_ICC " />
+    <uses-permission android:name="com.google.android.things.permission.USE_PERIPHERAL_IO" />
+
+    <application
+        android:name="com.innovus.vyoma.s_parking_agentApollo.SParkingAgent"
+        android:allowBackup="true"
+        android:appComponentFactory="@string/app_name"
+        android:extractNativeLibs="true"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/s_parking_app_logo"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@drawable/s_parking_app_logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:node="merge"
+        android:largeHeap="true"
+        tools:replace="android:appComponentFactory">
+        <activity android:name="com.innovus.vyoma.s_parking_agentApollo.BookingSummaryActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name="com.innovus.vyoma.s_parking_agentApollo.VehicleCheckInActivity" />
+        <activity android:name="com.innovus.vyoma.s_parking_agentApollo.VehicleNumberScannerActivity" />
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.AcceptedBookingListActivity"
+            android:label="@string/title_activity_accepted_booking_list"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.AdvBookingListActivity"
+            android:label="@string/title_activity_adv_booking_list"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.OfflineCheckOutActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.OfflineCheckInActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible" />
+
+        <meta-data
+            android:name="android.support.VERSION"
+            android:value="26.1.0"
+            tools:replace="android:value" />
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
+
+<!--        <service-->
+<!--            android:name="utilities.fcmpush.MyFirebaseMessagingService"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+<!--        <service-->
+<!--            android:name="utilities.fcmpush.MyFirebaseInstanceIDService"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+
+        <receiver
+            android:name="utilities.retrofit.NetworkStateChecker"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver> <!-- <receiver -->
+        <!-- android:name="utilities.receiver.BootReciever" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true" -->
+        <!-- android:permission="android.permission.RECEIVE_BOOT_COMPLETED"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.BOOT_COMPLETED" /> -->
+        <!-- <action android:name="android.intent.action.QUICKBOOT_POWERON" /> -->
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <provider
+            android:name="com.ezetap.sdk.EzetapFileProvider"
+            android:authorities="${applicationId}.EzetapFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.DashBoardActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.SplashActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+                <!--
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.HOME" />
+                -->
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.VehicleInfoScanActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.EndParkingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.VehicleOwnerRegistrationActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.BillGenerateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+            android:resource="@xml/device_filter" />
+
+        <activity
+            android:name="com.innovus.vyoma.s_parking_agentApollo.WebViewAboutUsActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5879496b740d62068ad2b9fd1dffd7e9bfa9365f" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="df82b5f721d8fdba426dce5b4bc5b7b4" />
+
+        <uses-library
+            android:name="com.pos.device"
+            android:required="false" />
+    </application>
+
+</manifest>

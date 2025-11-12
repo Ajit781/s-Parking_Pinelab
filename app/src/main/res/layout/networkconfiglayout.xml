@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/grey"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:padding="@dimen/_7sdp">
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/change_netwrk_mode"
+            android:textSize="@dimen/sp_20"
+            android:padding="@dimen/_7sdp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:drawableLeft="@drawable/wifi"
+            android:drawablePadding="@dimen/_3sdp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/bottom_line_color"
+            android:alpha="0.4"
+            android:layout_marginTop="@dimen/_3sdp"/>
+
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:weightSum="3"
+            android:padding="@dimen/_7sdp"
+            android:id="@+id/radioGroup_Network"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/online"
+                android:id="@+id/radioButton_online"
+                android:layout_gravity="center_horizontal"
+                android:checked="true"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp_18"
+                />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/offline"
+                android:id="@+id/radioButton_offline"
+                android:layout_gravity="center_horizontal"
+                android:checked="false"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp_18"
+                />
+
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnOk"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/_37sdp"
+                android:layout_margin="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/sp_20"
+                android:background="@color/green"
+                android:text="@string/btn_save"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
+            <Button
+                android:id="@+id/bt_cancel"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_37sdp"
+                android:text="@string/cancel"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/sp_20"
+                android:textColor="@color/white"
+                android:layout_margin="@dimen/_7sdp"
+                android:background="@color/colorAccent"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

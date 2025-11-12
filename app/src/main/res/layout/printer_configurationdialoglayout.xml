@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/grey"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_mainlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:padding="@dimen/_5sdp">
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/add_printer"
+            android:textSize="@dimen/sp_20"
+            android:padding="@dimen/_7sdp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/bottom_line_color"
+            android:alpha="0.4"
+            android:layout_marginTop="@dimen/_3sdp"/>
+
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:weightSum="3"
+            android:padding="@dimen/_7sdp"
+            android:id="@+id/radioGroup_printer"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:id="@+id/radioButton_none"
+                android:layout_gravity="left"
+                android:checked="false"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp_18" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pax"
+                android:id="@+id/radioButton_eazy_tap"
+                android:layout_gravity="left"
+                android:checked="false"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp_18"
+                />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pos"
+                android:id="@+id/radioButton_pos"
+                android:layout_gravity="left"
+                android:checked="false"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp_18"
+                />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pos_new"
+                android:id="@+id/radioButton_pos_new"
+                android:layout_gravity="left"
+                android:checked="false"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp_18"
+                />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pos_new_park"
+                android:id="@+id/radioButton_pos_park"
+                android:layout_gravity="left"
+                android:checked="false"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp_18"
+                />
+
+            <RadioButton
+                android:id="@+id/radioButton_pos_9210"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:checked="false"
+                android:visibility="gone"
+                android:text="@string/pos_9210"
+                android:textSize="@dimen/sp_18" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bluetooth_printer"
+                android:id="@+id/radioButton_bluetooth"
+                android:layout_gravity="left"
+                android:checked="false"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:textSize="@dimen/sp_18"
+                />
+        </RadioGroup>
+
+       <EditText
+           android:id="@+id/et_printer_name"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="@dimen/_15sdp"
+           android:layout_marginLeft="@dimen/_17sdp"
+           android:layout_marginRight="@dimen/_17sdp"
+           android:padding="@dimen/_7sdp"
+           android:visibility="gone"
+           android:drawableLeft="@drawable/printer"
+           android:background="@drawable/border"
+           android:hint="@string/printer_name"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnOk"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/_37sdp"
+                android:layout_margin="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/sp_20"
+                android:background="@color/green"
+                android:text="@string/btn_save"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
+            <Button
+                android:id="@+id/bt_cancel"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_37sdp"
+                android:text="@string/cancel"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/sp_20"
+                android:textColor="@color/white"
+                android:layout_margin="@dimen/_7sdp"
+                android:background="@color/colorAccent"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
