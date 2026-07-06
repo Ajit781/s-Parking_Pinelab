@@ -91,12 +91,13 @@
                             <EditText
                                 android:id="@+id/EditText_Vehicleno"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center"
-                                android:gravity="center"
+                                android:layout_marginLeft="0dp"
                                 android:background="@null"
+                                android:gravity="center"
+
                                 android:hint="@string/VehicleNumber"
-                                android:layout_marginLeft="@dimen/dp_10"
                                 android:imeOptions="actionNext"
                                 android:inputType="textCapCharacters"
                                 android:maxLines="1"
@@ -134,15 +135,17 @@
                             android:layout_gravity="left"
                             android:theme="@style/MyEditText"
                             android:textColor="@color/white"
+                            android:visibility="gone"
                             android:gravity="center"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/sp_18"
-                            android:textColor="@color/white"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/dp_10"
-                            android:text="@string/check_text"/>
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:textSize="@dimen/sp_18"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:layout_marginLeft="@dimen/dp_10"-->
+<!--                            android:visibility="gone"-->
+<!--                            android:text="@string/check_text"/>-->
                     </LinearLayout>
 
 
@@ -237,7 +240,6 @@
                         android:baselineAligned="false" >
 
                         <FrameLayout
-
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
@@ -281,14 +283,7 @@
                             </LinearLayout>
                         </FrameLayout>
                     </RelativeLayout>
-
-
                 </LinearLayout>
-
-
-
-
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -299,10 +294,6 @@
                     android:textColor="#fff"
                     android:textSize="@dimen/sp_18"
                     android:visibility="gone"/>
-
-
-
-
                 <FrameLayout
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
@@ -355,8 +346,6 @@
                         </RelativeLayout>
                     </LinearLayout>
                 </FrameLayout>
-
-
 
                 <FrameLayout
                     android:layout_width="fill_parent"

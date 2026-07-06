@@ -108,32 +108,31 @@ import utilities.eazytap.FloatView;
 import utilities.eazytap.PrinterTester;
 import utilities.printer_utils.Utils;
 
+public class OfflineCheckInActivity extends AppCompatActivity
+        implements View.OnClickListener/* , SwipeListener */, AsyncResponse, AdapterView.OnItemSelectedListener {
 
-
-public class OfflineCheckInActivity extends AppCompatActivity implements View.OnClickListener/*, SwipeListener*/, AsyncResponse, AdapterView.OnItemSelectedListener {
-
-    EditText scanResults,et_owner_ph_no,et_checkinDate,et_checkinTime,et_bookingid;
+    EditText scanResults, et_owner_ph_no, et_checkinDate, et_checkinTime, et_bookingid;
     private CheckBox check_pass;
-    private Button btn_checkin,btn_ScanQR,default_number_btn;
-    private Spinner sp_store,spinner_Vehicle_Type;
-    private TextView m_TxtVStartParkingMessage,tv_vehicle_type;
+    private Button btn_checkin, btn_ScanQR, default_number_btn;
+    private Spinner sp_store, spinner_Vehicle_Type;
+    private TextView m_TxtVStartParkingMessage, tv_vehicle_type;
     private LinearLayout freeparking_lay;
     private RadioGroup radioGroup_vehicletype;
     private ImageView iv_printer;
-    private RadioButton radioButton_twowheel,radioButton_fourwheel;
+    private RadioButton radioButton_twowheel, radioButton_fourwheel;
     private String bookingNumber = "";
     String parkingareaid = "";
     String strVehicleType = "";
     private String[] str_checking;
     private String[] str_qrdata;
-    private LinearLayout ll_check_pass,ll_pass_main;
+    private LinearLayout ll_check_pass, ll_pass_main;
     private Uri imageUri;
     /******* for custom qr scan **************/
     private LinearLayout lay_scan;
     private RelativeLayout scan_linear;
     private ImageView disable_scan_qr;
-   // private ZXingScannerView mScannerView;
-    Animation bottomin,bottomout;
+    // private ZXingScannerView mScannerView;
+    Animation bottomin, bottomout;
 
     String bl_uuid;
     byte[] readBuffer;
@@ -149,14 +148,14 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
     private String m_strUserName;
     private Integer m_iUId;
     private String blockCharacterSet = "@~#^|$%&*@)+=-_:;'<>?.,{}[]|/(!₹~ ";
-   // private IntentIntegrator m_qrScan = null;
+    // private IntentIntegrator m_qrScan = null;
     private String passapplied = "0";
     private String strStoreid = "0";
     RemoteAsync remoteAsync;
     SParkingAgentModel dataModel = SParkingAgentModel.getInstance();
     private SpotsDialog progressDialog;
-    String payment_mode ="";
-    int isServerError =0;
+    String payment_mode = "";
+    int isServerError = 0;
     private String version_name = "";
     BluetoothAdapter mBluetoothAdapter;
     BluetoothSocket mmSocket;
@@ -168,7 +167,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
     String strVehicleNumber = "";
     Integer iVehicleType = 0;
     VehicleCheckInBean vehicleCheckInBean;
-    final String[] radiocheck = {""};
+    final String[] radiocheck = { "" };
 
     DataOutputStream mmOutputStream_forboom;
     private String Result;
@@ -220,16 +219,12 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                 if (obj.getString("status").equals(Constants.SUCCESS)) {
 
                     resetallfield();
-                    //Redirecting to dashboard screen
-                    ShowAlertDialog.showAlertDialog(this,obj.getString("message"));
+                    // Redirecting to dashboard screen
+                    ShowAlertDialog.showAlertDialog(this, obj.getString("message"));
 
+                } else if (obj.getString("status").equals(Constants.NOT_SUCCESS)) {
 
-                }
-                else if(obj.getString("status").equals(Constants.NOT_SUCCESS)) {
-
-
-                }
-                else {
+                } else {
 
                     JSONObject msg = new JSONObject(output);
                     ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this, msg.getString("message"));
@@ -238,21 +233,20 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else if (type.equals(RemoteAsync.CHECKAPPVERSION)) {
+        } else if (type.equals(RemoteAsync.CHECKAPPVERSION)) {
             try {
                 JSONObject obj = new JSONObject(output);
 
                 Log.e("Response-->", obj.toString());
                 if (obj.getString("status").equals(Constants.SUCCESS)) {
-                    String versioncode= SharedStorage.getValue(getApplicationContext(),"versionname");
-                    if(versioncode.equals(obj.getString("ServerVersion"))){
+                    String versioncode = SharedStorage.getValue(getApplicationContext(), "versionname");
+                    if (versioncode.equals(obj.getString("ServerVersion"))) {
 
-                        SharedStorage.setValue(getApplicationContext(),"baseUrl",obj.getString("base_url"));
-//                        SharedStorage.setValue(getApplicationContext(),"baseUrl","http://103.90.68.14/api/");
-//                        SharedStorage.setValue(getApplicationContext(),"baseUrl","http://ec2-13-233-106-250.ap-south-1.compute.amazonaws.com/api/");
+                        SharedStorage.setValue(getApplicationContext(), "baseUrl", obj.getString("base_url"));
+                        // SharedStorage.setValue(getApplicationContext(),"baseUrl","http://103.90.68.14/api/");
+                        // SharedStorage.setValue(getApplicationContext(),"baseUrl","http://ec2-13-233-106-250.ap-south-1.compute.amazonaws.com/api/");
 
-                        dataModel.url= SharedStorage.getValue(getApplicationContext(),"baseUrl");
+                        dataModel.url = SharedStorage.getValue(getApplicationContext(), "baseUrl");
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date();
                         System.out.println("Current Date " + dateFormat.format(date));
@@ -265,9 +259,9 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                         c.add(Calendar.DATE, 45);
 
                         // Convert calendar back to Date
-//                        Date currentDatePlusOne = c.getTime();
-//
-//                        System.out.println("Updated Date " + dateFormat.format(currentDatePlusOne));
+                        // Date currentDatePlusOne = c.getTime();
+                        //
+                        // System.out.println("Updated Date " + dateFormat.format(currentDatePlusOne));
                         Date currentDatePlusOne = null;
                         try {
                             currentDatePlusOne = dateFormat.parse(obj.getString("valid_upto"));
@@ -277,10 +271,10 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                         }
                         System.out.println("Updated Date " + dateFormat.format(currentDatePlusOne));
 
-                        SharedStorage.setValue(getApplicationContext(),"licence_renewdate",dateFormat.format(currentDatePlusOne));
+                        SharedStorage.setValue(getApplicationContext(), "licence_renewdate",
+                                dateFormat.format(currentDatePlusOne));
 
-
-                    }else{
+                    } else {
 
                         final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
                         LayoutInflater inflater = this.getLayoutInflater();
@@ -302,11 +296,11 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                             public void onClick(View view) {
                                 alertDialog.dismiss();
                                 // check App version service request
-                                CheckAppsVersion(getApplicationContext().getPackageName(),version_name);
+                                CheckAppsVersion(getApplicationContext().getPackageName(), version_name);
 
                             }
                         });
-                        //Animate alert dialog box
+                        // Animate alert dialog box
                         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
                         ft.setCustomAnimations(android.R.animator.fade_in,
                                 android.R.animator.fade_out);
@@ -315,9 +309,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                         alertDialog.setCancelable(false);
                     }
 
-                }
-                else if(obj.getString("status").equals(Constants.FAILED)){
-
+                } else if (obj.getString("status").equals(Constants.FAILED)) {
 
                     final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
                     LayoutInflater inflater = this.getLayoutInflater();
@@ -339,24 +331,23 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                         public void onClick(View view) {
                             alertDialog.dismiss();
                             // check App version service request
-                            CheckAppsVersion(getApplicationContext().getPackageName(),version_name);
+                            CheckAppsVersion(getApplicationContext().getPackageName(), version_name);
 
                         }
                     });
-                    //Animate alert dialog box
+                    // Animate alert dialog box
                     FragmentTransaction ft = this.getFragmentManager().beginTransaction();
                     ft.setCustomAnimations(android.R.animator.fade_in,
                             android.R.animator.fade_out);
                     // Showing Alert Message
                     alertDialog.show();
                     alertDialog.setCancelable(false);
-                }
-                else if(obj.getString("status").equals(Constants.PASS)){
-                    SharedStorage.setValue(getApplicationContext(),"baseUrl",obj.getString("base_url"));
-//                    SharedStorage.setValue(getApplicationContext(),"baseUrl","http://103.90.68.14/api/");
-//                   SharedStorage.setValue(getApplicationContext(),"baseUrl","http://ec2-13-233-106-250.ap-south-1.compute.amazonaws.com/api/");
+                } else if (obj.getString("status").equals(Constants.PASS)) {
+                    SharedStorage.setValue(getApplicationContext(), "baseUrl", obj.getString("base_url"));
+                    // SharedStorage.setValue(getApplicationContext(),"baseUrl","http://103.90.68.14/api/");
+                    // SharedStorage.setValue(getApplicationContext(),"baseUrl","http://ec2-13-233-106-250.ap-south-1.compute.amazonaws.com/api/");
 
-                    dataModel.url= SharedStorage.getValue(getApplicationContext(),"baseUrl");
+                    dataModel.url = SharedStorage.getValue(getApplicationContext(), "baseUrl");
 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date();
@@ -370,9 +361,9 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                     c.add(Calendar.DATE, 45);
 
                     // Convert calendar back to Date
-//                    Date currentDatePlusOne = c.getTime();
-//
-//                    System.out.println("Updated Date " + dateFormat.format(currentDatePlusOne));
+                    // Date currentDatePlusOne = c.getTime();
+                    //
+                    // System.out.println("Updated Date " + dateFormat.format(currentDatePlusOne));
                     Date currentDatePlusOne = null;
                     try {
                         currentDatePlusOne = dateFormat.parse(obj.getString("valid_upto"));
@@ -382,10 +373,10 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                     }
                     System.out.println("Updated Date " + dateFormat.format(currentDatePlusOne));
 
-                    SharedStorage.setValue(getApplicationContext(),"licence_renewdate",dateFormat.format(currentDatePlusOne));
+                    SharedStorage.setValue(getApplicationContext(), "licence_renewdate",
+                            dateFormat.format(currentDatePlusOne));
 
-                }
-                else {
+                } else {
                     JSONObject msg = new JSONObject(output);
 
                     final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
@@ -408,11 +399,11 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                         public void onClick(View view) {
                             alertDialog.dismiss();
                             // check App version service request
-                            CheckAppsVersion(getApplicationContext().getPackageName(),version_name);
+                            CheckAppsVersion(getApplicationContext().getPackageName(), version_name);
 
                         }
                     });
-                    //Animate alert dialog box
+                    // Animate alert dialog box
                     FragmentTransaction ft = this.getFragmentManager().beginTransaction();
                     ft.setCustomAnimations(android.R.animator.fade_in,
                             android.R.animator.fade_out);
@@ -427,6 +418,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             }
         }
     }
+
     @Override
     protected void onDestroy() {
 
@@ -441,14 +433,14 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>"+getResources().getString(R.string.app_name)+"</font>"));
+        getSupportActionBar().setTitle(
+                Html.fromHtml("<font color='#FFFFFF'>" + getResources().getString(R.string.app_name) + "</font>"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mContext = this;
 
-        //show and hide keyboard
-        if(getWindow().getAttributes().softInputMode== WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-        {
+        // show and hide keyboard
+        if (getWindow().getAttributes().softInputMode == WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
 
@@ -463,18 +455,17 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         }
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
+        if (bundle != null) {
             m_strUserName = bundle.getString("myName");
             m_iUId = bundle.getInt("myID");
 
             databaseHandler = new DatabaseHandler(getApplicationContext());
         }
 
-
         initviews();
 
-        //        checking for licence
-        if(!SharedStorage.getValue(getApplicationContext(),"licence_renewdate").equals("")){
+        // checking for licence
+        if (!SharedStorage.getValue(getApplicationContext(), "licence_renewdate").equals("")) {
 
             PackageInfo packageInfo = null;
             try {
@@ -486,29 +477,29 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             int version_code = packageInfo.versionCode;
             version_name = packageInfo.versionName;
             Log.i("updated version code", String.valueOf(version_code) + "  " + version_name);
-            SharedStorage.setValue(getApplicationContext(),"versionname",version_name);
+            SharedStorage.setValue(getApplicationContext(), "versionname", version_name);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {
-                Date estimated_date = dateFormat.parse(SharedStorage.getValue(getApplicationContext(),"licence_renewdate"));
+                Date estimated_date = dateFormat
+                        .parse(SharedStorage.getValue(getApplicationContext(), "licence_renewdate"));
                 Date current_date = new Date();
 
                 System.out.println("Current Date " + dateFormat.format(current_date));
                 System.out.println("Current Date " + dateFormat.format(estimated_date));
                 long diff = 0;
 
-                Log.e("splash", "onResume: "+String.valueOf(diff));
+                Log.e("splash", "onResume: " + String.valueOf(diff));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    diff = betweenDates(current_date,estimated_date);
-                }else {
-                    diff = betweenDateslowversion(current_date,estimated_date);
+                    diff = betweenDates(current_date, estimated_date);
+                } else {
+                    diff = betweenDateslowversion(current_date, estimated_date);
                 }
 
-
-                if(diff > 7){
+                if (diff > 7) {
                     Log.e("within", "within licence period");
-                }else{
-                    if(diff>0){
+                } else {
+                    if (diff > 0) {
                         final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
                         LayoutInflater inflater = this.getLayoutInflater();
                         View dialogView = inflater.inflate(R.layout.customdialoglayout, null);
@@ -531,14 +522,14 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
                             }
                         });
-                        //Animate alert dialog box
+                        // Animate alert dialog box
                         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
                         ft.setCustomAnimations(android.R.animator.fade_in,
                                 android.R.animator.fade_out);
                         // Showing Alert Message
                         alertDialog.show();
                         alertDialog.setCancelable(false);
-                    }else {
+                    } else {
                         final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
                         LayoutInflater inflater = this.getLayoutInflater();
                         View dialogView = inflater.inflate(R.layout.customdialoglayout, null);
@@ -559,11 +550,11 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                             public void onClick(View view) {
                                 alertDialog.dismiss();
                                 // check App version service request
-                                CheckAppsVersion(getApplicationContext().getPackageName(),version_name);
+                                CheckAppsVersion(getApplicationContext().getPackageName(), version_name);
 
                             }
                         });
-                        //Animate alert dialog box
+                        // Animate alert dialog box
                         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
                         ft.setCustomAnimations(android.R.animator.fade_in,
                                 android.R.animator.fade_out);
@@ -581,13 +572,13 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
         }
 
-
     }
 
     /******************* eazyTap printer printing code ****************/
     public static final int PAGE_WIDTH_TWO_INCH = 22;
     public static final int PAGE_WIDTH_TWO_INCH_SMALL = 30;
     public static final int PAGE_WIDTH_TWO_INCH_SMALL_BOTTOM = 40;
+
     static String paddingLeft(String data, int n) {
         StringBuilder temp = new StringBuilder();
         for (int i = 0; i < n; i++)
@@ -602,6 +593,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         return (data + temp);
 
     }
+
     public static String paddingCenter(String data, int n) {
         String temp = "";
         String t1;
@@ -625,6 +617,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         return temp;
 
     }
+
     // print Bill using EzeTap
     private void printEazytapBill(String vehicle_number) {
 
@@ -636,62 +629,63 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                 PrinterTester.getInstance().fontSet(EFontTypeAscii.FONT_16_32, EFontTypeExtCode.FONT_16_16);
                 PrinterTester.getInstance().setGray(30);
                 StringBuilder print_bill = new StringBuilder();
-                if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-                    print_bill.append(paddingCenter(SharedStorage.getValue(getApplicationContext(),"AgencyName"), PAGE_WIDTH_TWO_INCH)).append("\n");
-                    PrinterTester.getInstance().printStr(String.valueOf(print_bill),null);
-//                    PrinterTester.getInstance().printStr(SharedStorage.getValue(getApplicationContext(),"AgencyName")+"\n",null);
-                }else{
-//                    PrinterTester.getInstance().leftIndents(Short.parseShort("120"));
+                if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
+                    print_bill.append(paddingCenter(SharedStorage.getValue(getApplicationContext(), "AgencyName"),
+                            PAGE_WIDTH_TWO_INCH)).append("\n");
+                    PrinterTester.getInstance().printStr(String.valueOf(print_bill), null);
+                    // PrinterTester.getInstance().printStr(SharedStorage.getValue(getApplicationContext(),"AgencyName")+"\n",null);
+                } else {
+                    // PrinterTester.getInstance().leftIndents(Short.parseShort("120"));
                     print_bill.append(paddingCenter("sParking", PAGE_WIDTH_TWO_INCH)).append("\n");
-                    PrinterTester.getInstance().printStr(String.valueOf(print_bill),null);
-//                    PrinterTester.getInstance().printStr("sParking\n",null);
+                    PrinterTester.getInstance().printStr(String.valueOf(print_bill), null);
+                    // PrinterTester.getInstance().printStr("sParking\n",null);
                     PrinterTester.getInstance().step(2);
                     print_bill = new StringBuilder();
-//                    PrinterTester.getInstance().leftIndents(Short.parseShort("78"));
-                  //  PrinterTester.getInstance().fontSet(EFontTypeAscii.FONT_12_24,EFontTypeExtCode.FONT_16_32);
-                    PrinterTester.getInstance().fontSet(EFontTypeAscii.FONT_12_24,EFontTypeExtCode.FONT_16_16);
+                    // PrinterTester.getInstance().leftIndents(Short.parseShort("78"));
+                    // PrinterTester.getInstance().fontSet(EFontTypeAscii.FONT_12_24,EFontTypeExtCode.FONT_16_32);
+                    PrinterTester.getInstance().fontSet(EFontTypeAscii.FONT_12_24, EFontTypeExtCode.FONT_16_16);
                     print_bill = new StringBuilder();
                     print_bill.append(paddingCenter("Welcome", PAGE_WIDTH_TWO_INCH_SMALL)).append("\n");
-                    PrinterTester.getInstance().printStr(String.valueOf(print_bill),null);
-//                PrinterTester.getInstance().leftIndents(Short.parseShort("60"));
+                    PrinterTester.getInstance().printStr(String.valueOf(print_bill), null);
+                    // PrinterTester.getInstance().leftIndents(Short.parseShort("60"));
                 }
 
-                String str = SharedStorage.getValue(OfflineCheckInActivity.this,"parkinglocation");
+                String str = SharedStorage.getValue(OfflineCheckInActivity.this, "parkinglocation");
                 String[] arrOfStr = str.split("-");
 
-                for (String str_location : arrOfStr){
+                for (String str_location : arrOfStr) {
                     print_bill = new StringBuilder();
                     print_bill.append(paddingCenter(str_location, PAGE_WIDTH_TWO_INCH_SMALL)).append("\n");
-                    PrinterTester.getInstance().printStr(String.valueOf(print_bill),null);
+                    PrinterTester.getInstance().printStr(String.valueOf(print_bill), null);
                 }
-
 
                 PrinterTester.getInstance().leftIndents(Short.parseShort("1"));
-                if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+                if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
 
-                    PrinterTester.getInstance().printStr("Access amt : "+actualaccesscontrlamount+"\n",null);
+                    PrinterTester.getInstance().printStr("Access amt : " + actualaccesscontrlamount + "\n", null);
                 }
 
-                PrinterTester.getInstance().printStr("\n",null);
+                PrinterTester.getInstance().printStr("\n", null);
                 PrinterTester.getInstance().leftIndents(Short.parseShort("10"));
-                PrinterTester.getInstance().fontSet(EFontTypeAscii.FONT_8_32,EFontTypeExtCode.FONT_16_16);
-                PrinterTester.getInstance().printStr("Vehicle No : "+vehicle_number+"\n",null);
-                PrinterTester.getInstance().printStr("Vehicle Type: "+strVehicleType+"\n",null);
-                PrinterTester.getInstance().printStr("CheckIn Time: "+dateTime[0]+" "+dateTime[1]+"\n",null);
-                PrinterTester.getInstance().printStr("Booking No  : "+bookingNumber+"\n",null);
+                PrinterTester.getInstance().fontSet(EFontTypeAscii.FONT_8_32, EFontTypeExtCode.FONT_16_16);
+                PrinterTester.getInstance().printStr("Vehicle No : " + vehicle_number + "\n", null);
+                PrinterTester.getInstance().printStr("Vehicle Type: " + strVehicleType + "\n", null);
+                PrinterTester.getInstance().printStr("CheckIn Time: " + dateTime[0] + " " + dateTime[1] + "\n", null);
+                PrinterTester.getInstance().printStr("Booking No  : " + bookingNumber + "\n", null);
                 PrinterTester.getInstance().leftIndents(Short.parseShort("10"));
                 try {
 
-                    if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-                        //data that will be stored in qr image
-                        strVehicleNo = vehicleCheckInBean.getVehicle_number()+"##"+vehicleCheckInBean.getCheckintime()+"##"+
-                                vehicleCheckInBean.getBookingid()+"##"+vehicleCheckInBean.getVehicletype()
-                                +"##"+actualaccesscontrlamount;
+                    if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
+                        // data that will be stored in qr image
+                        strVehicleNo = vehicleCheckInBean.getVehicle_number() + "##"
+                                + vehicleCheckInBean.getCheckintime() + "##" +
+                                vehicleCheckInBean.getBookingid() + "##" + vehicleCheckInBean.getVehicletype()
+                                + "##" + actualaccesscontrlamount;
 
-
-                    }else {
-                        strVehicleNo = vehicleCheckInBean.getVehicle_number()+"##"+vehicleCheckInBean.getCheckintime()+"##"+
-                                vehicleCheckInBean.getBookingid()+"##"+vehicleCheckInBean.getVehicletype();
+                    } else {
+                        strVehicleNo = vehicleCheckInBean.getVehicle_number() + "##"
+                                + vehicleCheckInBean.getCheckintime() + "##" +
+                                vehicleCheckInBean.getBookingid() + "##" + vehicleCheckInBean.getVehicletype();
                     }
                     QRCodeWriter writer = new QRCodeWriter();
                     try {
@@ -705,32 +699,36 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                             }
                         }
 
-                        Bitmap bitmap = pad(bmp,50,0);
+                        Bitmap bitmap = pad(bmp, 50, 0);
 
-                        if(bitmap!=null){
+                        if (bitmap != null) {
                             byte[] command = Utils.decodeBitmap(bitmap);
                             PrinterTester.getInstance().printBitmap(bitmap);
 
-//                            PrinterTester.getInstance().leftIndents(Short.parseShort("5"));
+                            // PrinterTester.getInstance().leftIndents(Short.parseShort("5"));
 
-                            if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+                            if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
                                 print_bill = new StringBuilder();
-                                print_bill.append(paddingCenter("Loss of Ticket = 500", PAGE_WIDTH_TWO_INCH_SMALL_BOTTOM)).append("\n");
-                                PrinterTester.getInstance().printStr(String.valueOf(print_bill),null);
-//                                PrinterTester.getInstance().printStr("Loss of Ticket = 500\n",null);
+                                print_bill
+                                        .append(paddingCenter("Loss of Ticket = 500", PAGE_WIDTH_TWO_INCH_SMALL_BOTTOM))
+                                        .append("\n");
+                                PrinterTester.getInstance().printStr(String.valueOf(print_bill), null);
+                                // PrinterTester.getInstance().printStr("Loss of Ticket = 500\n",null);
 
-                            }else {
+                            } else {
                                 print_bill = new StringBuilder();
-                                print_bill.append(paddingCenter("www.smartpower.co.in", PAGE_WIDTH_TWO_INCH_SMALL_BOTTOM)).append("\n");
-                                PrinterTester.getInstance().printStr(String.valueOf(print_bill),null);
-//                                PrinterTester.getInstance().printStr("Download s-Parking App from Play Store\n",null);
-
+                                print_bill
+                                        .append(paddingCenter("www.smartpower.co.in", PAGE_WIDTH_TWO_INCH_SMALL_BOTTOM))
+                                        .append("\n");
+                                PrinterTester.getInstance().printStr(String.valueOf(print_bill), null);
+                                // PrinterTester.getInstance().printStr("Download s-Parking App from Play
+                                // Store\n",null);
 
                             }
-                            PrinterTester.getInstance().printStr("\n",null);
-                            PrinterTester.getInstance().printStr("\n",null);
+                            PrinterTester.getInstance().printStr("\n", null);
+                            PrinterTester.getInstance().printStr("\n", null);
                             PrinterTester.getInstance().step(60);
-                        }else{
+                        } else {
                             Log.e("Print Photo error", "the file isn't exists");
                         }
                     } catch (WriterException e) {
@@ -747,7 +745,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                 scanResults.post(new Runnable() {
                     public void run() {
                         // CToast.show(getApplicationContext(),status);
-                        if (status.equals("Out of paper ")){
+                        if (status.equals("Out of paper ")) {
                             final AlertDialog alertDialog = new AlertDialog.Builder(
                                     OfflineCheckInActivity.this).create();
 
@@ -774,7 +772,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                                     }
                                 }
                             });
-                            //Animate alert dialog box
+                            // Animate alert dialog box
                             FragmentTransaction ft = getFragmentManager().beginTransaction();
                             ft.setCustomAnimations(android.R.animator.fade_in,
                                     android.R.animator.fade_out);
@@ -782,7 +780,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                             alertDialog.show();
                             alertDialog.setCancelable(false);
 
-                        }else{
+                        } else {
 
                             btn_checkin.setClickable(true);
                             btn_checkin.setEnabled(true);
@@ -797,9 +795,9 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
                                 @Override
                                 public void run() {
-                                    try{
+                                    try {
                                         callBT_forboom();
-                                    }catch(Exception e){
+                                    } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
@@ -812,8 +810,8 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             }
         }).start();
 
-
     }
+
     private void printEazytapBillUsingSDK(String Vehicle_Number) {
 
         new Thread(new Runnable() {
@@ -824,7 +822,8 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                 JSONObject jsonRequest = new JSONObject();
                 JSONObject jsonImageObj = new JSONObject();
 
-                String[] arrLocName = breakStringToLines(SharedStorage.getValue(OfflineCheckInActivity.this, "parkinglocation"), 35);
+                String[] arrLocName = breakStringToLines(
+                        SharedStorage.getValue(OfflineCheckInActivity.this, "parkinglocation"), 35);
                 if (arrLocName.length <= 1) {
                     bitmap = Bitmap.createBitmap(400, 580, Bitmap.Config.ARGB_8888);
                 } else {
@@ -840,25 +839,24 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                 paint.setTypeface(typeface);
                 paint.setColor(Color.rgb(0, 0, 0));
                 Rect bounds = new Rect();
-                String strText="";
-                int x=0;
-                int y=0;
-                if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+                String strText = "";
+                int x = 0;
+                int y = 0;
+                if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
                     // Set first line in Bitmap
                     paint.setTextSize((int) (24));
-                    strText = SharedStorage.getValue(getApplicationContext(),"AgencyName");
+                    strText = SharedStorage.getValue(getApplicationContext(), "AgencyName");
                     paint.getTextBounds(strText, 0, strText.length(), bounds);
-                    x = (bitmap.getWidth() - bounds.width())/2;
+                    x = (bitmap.getWidth() - bounds.width()) / 2;
                     y = 30;
                     canvas.drawText(strText, x, y, paint);
 
-                }
-                else{
+                } else {
                     // Set first line in Bitmap
                     paint.setTextSize((int) (26));
                     strText = "INSLIP";
                     paint.getTextBounds(strText, 0, strText.length(), bounds);
-                    x = (bitmap.getWidth() - bounds.width())/2;
+                    x = (bitmap.getWidth() - bounds.width()) / 2;
                     y = 30;
                     canvas.drawText(strText, x, y, paint);
 
@@ -870,19 +868,20 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                     y += 24;
                     canvas.drawText(strText, x, y, paint);
 
-//                    paint.setTextSize((int) (26));
-//                    strText = "SmartPower";
-//                    paint.getTextBounds(strText, 0, strText.length(), bounds);
-//                    x = (bitmap.getWidth() - bounds.width()) / 2;
-//                    y += 24;
-//                    canvas.drawText(strText, x, y, paint);
+                    // paint.setTextSize((int) (26));
+                    // strText = "SmartPower";
+                    // paint.getTextBounds(strText, 0, strText.length(), bounds);
+                    // x = (bitmap.getWidth() - bounds.width()) / 2;
+                    // y += 24;
+                    // canvas.drawText(strText, x, y, paint);
 
                 }
 
                 // Set third line in Bitmap
                 paint.setTextSize((int) (22));
-                //  strText = SharedStorage.getValue(VehicleOwnerRegistrationActivity.this,"parkinglocation");
-                //  String[] arrLocName = breakStringToLines(strText,35);
+                // strText =
+                // SharedStorage.getValue(VehicleOwnerRegistrationActivity.this,"parkinglocation");
+                // String[] arrLocName = breakStringToLines(strText,35);
                 for (String strLocName : arrLocName) {
                     if (null != strLocName && !strLocName.trim().equals("")) {
                         paint.getTextBounds(strLocName, 0, strLocName.length(), bounds);
@@ -893,18 +892,18 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                 }
                 // Set fourth line in Bitmap
                 paint.setTextSize((int) (24));
-                strText = "Vehicle No      : "+Vehicle_Number;
+                strText = "Vehicle No      : " + Vehicle_Number;
                 paint.getTextBounds(strText, 0, strText.length(), bounds);
-                x = (bitmap.getWidth() - bounds.width())/2;
+                x = (bitmap.getWidth() - bounds.width()) / 2;
                 x = 20;
                 y += 62;
                 canvas.drawText(strText, x, y, paint);
 
                 // Set fourth line in Bitmap
                 paint.setTextSize((int) (24));
-                strText = "Vehicle Type   : "+strVehicleType;
+                strText = "Vehicle Type   : " + strVehicleType;
                 paint.getTextBounds(strText, 0, strText.length(), bounds);
-                x = (bitmap.getWidth() - bounds.width())/2;
+                x = (bitmap.getWidth() - bounds.width()) / 2;
                 x = 20;
                 y += 24;
                 canvas.drawText(strText, x, y, paint);
@@ -912,28 +911,28 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                 String dateTime[] = getDateTime();
                 // Set fifth line in Bitmap
                 paint.setTextSize((int) (24));
-                strText = "CheckIn Time : "+vehicleCheckInBean.getCheckintime();
+                strText = "CheckIn Time : " + vehicleCheckInBean.getCheckintime();
                 paint.getTextBounds(strText, 0, strText.length(), bounds);
-                x = (bitmap.getWidth() - bounds.width())/2;
+                x = (bitmap.getWidth() - bounds.width()) / 2;
                 x = 20;
                 y += 24;
                 canvas.drawText(strText, x, y, paint);
 
                 // Set sixth line in Bitmap
                 paint.setTextSize((int) (24));
-                strText = "Booking No     : "+bookingNumber;
+                strText = "Booking No     : " + bookingNumber;
                 paint.getTextBounds(strText, 0, strText.length(), bounds);
-                x = (bitmap.getWidth() - bounds.width())/2;
+                x = (bitmap.getWidth() - bounds.width()) / 2;
                 x = 20;
                 y += 24;
                 canvas.drawText(strText, x, y, paint);
 
-                //Set seven line in Bitmap
-                if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+                // Set seven line in Bitmap
+                if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
                     paint.setTextSize((int) (22));
-                    strText = "Access amt : "+actualaccesscontrlamount;
+                    strText = "Access amt : " + actualaccesscontrlamount;
                     paint.getTextBounds(strText, 0, strText.length(), bounds);
-                    x = (bitmap.getWidth() - bounds.width())/2;
+                    x = (bitmap.getWidth() - bounds.width()) / 2;
                     y += 24;
                     canvas.drawText(strText, x, y, paint);
                 }
@@ -941,65 +940,65 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
                 y += 10;
 
-                if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-                    //data that will be stored in qr image
-                    strVehicleNo = vehicleCheckInBean.getVehicle_number()+"##"+vehicleCheckInBean.getCheckintime()+"##"+
-                            vehicleCheckInBean.getBookingid()+"##"+vehicleCheckInBean.getVehicletype()
-                            +"##"+actualaccesscontrlamount;
+                if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
+                    // data that will be stored in qr image
+                    strVehicleNo = vehicleCheckInBean.getVehicle_number() + "##" + vehicleCheckInBean.getCheckintime()
+                            + "##" +
+                            vehicleCheckInBean.getBookingid() + "##" + vehicleCheckInBean.getVehicletype()
+                            + "##" + actualaccesscontrlamount;
 
-
-                }else {
-                    strVehicleNo = vehicleCheckInBean.getVehicle_number()+"##"+vehicleCheckInBean.getCheckintime()+"##"+
-                            vehicleCheckInBean.getBookingid()+"##"+vehicleCheckInBean.getVehicletype();
+                } else {
+                    strVehicleNo = vehicleCheckInBean.getVehicle_number() + "##" + vehicleCheckInBean.getCheckintime()
+                            + "##" +
+                            vehicleCheckInBean.getBookingid() + "##" + vehicleCheckInBean.getVehicletype();
                 }
-                try{
+                try {
                     QRCodeWriter writer = new QRCodeWriter();
                     BitMatrix bitMatrix = writer.encode(strVehicleNo, BarcodeFormat.QR_CODE, 250, 250);
                     int width = bitMatrix.getWidth();
                     int height = bitMatrix.getHeight();
-                    //bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                    // bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
                     for (int xCount = 0; xCount < width; xCount++) {
                         for (int yCount = 0; yCount < height; yCount++) {
-                            bitmap.setPixel(xCount + 80, yCount + y, bitMatrix.get(xCount, yCount) ? Color.BLACK : Color.WHITE);
+                            bitmap.setPixel(xCount + 80, yCount + y,
+                                    bitMatrix.get(xCount, yCount) ? Color.BLACK : Color.WHITE);
                         }
                     }
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 paint.setTextSize((int) (22));
                 strText = "Thank You. Please visit again!";
                 paint.getTextBounds(strText, 0, strText.length(), bounds);
-                x = (bitmap.getWidth() - bounds.width())/2;
+                x = (bitmap.getWidth() - bounds.width()) / 2;
                 y += 274;
                 canvas.drawText(strText, x, y, paint);
 
                 // Set seventh line in Bitmap
-//                paint.setTextSize((int) (24));
-//                strText = "VISIT AGAIN!";
-//                paint.getTextBounds(strText, 0, strText.length(), bounds);
-//                x = (bitmap.getWidth() - bounds.width()) / 2;
-//                y += 24;
-//                canvas.drawText(strText, x, y, paint);
+                // paint.setTextSize((int) (24));
+                // strText = "VISIT AGAIN!";
+                // paint.getTextBounds(strText, 0, strText.length(), bounds);
+                // x = (bitmap.getWidth() - bounds.width()) / 2;
+                // y += 24;
+                // canvas.drawText(strText, x, y, paint);
 
-
-                if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+                if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
                     // Set seventh line in Bitmap
                     paint.setTextSize((int) (22));
                     strText = "Loss of Ticket = 500";
                     paint.getTextBounds(strText, 0, strText.length(), bounds);
-                    x = (bitmap.getWidth() - bounds.width())/2;
+                    x = (bitmap.getWidth() - bounds.width()) / 2;
                     y += 264;
                     canvas.drawText(strText, x, y, paint);
 
-
-                }else {
-//                    // Set seventh line in Bitmap
-//                    paint.setTextSize((int) (24));
-//                    strText = "www.smartpower.co.in";
-//                    paint.getTextBounds(strText, 0, strText.length(), bounds);
-//                    x = (bitmap.getWidth() - bounds.width())/2;
-//                    y += 260;
-//                    canvas.drawText(strText, x, y, paint);
+                } else {
+                    // // Set seventh line in Bitmap
+                    // paint.setTextSize((int) (24));
+                    // strText = "www.smartpower.co.in";
+                    // paint.getTextBounds(strText, 0, strText.length(), bounds);
+                    // x = (bitmap.getWidth() - bounds.width())/2;
+                    // y += 260;
+                    // canvas.drawText(strText, x, y, paint);
 
                 }
                 PrinterTester.getInstance().printBitmap(bitmap);
@@ -1010,7 +1009,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                 scanResults.post(new Runnable() {
                     public void run() {
                         // CToast.show(getApplicationContext(),status);
-                        if (status.equals("Out of paper ")){
+                        if (status.equals("Out of paper ")) {
                             final AlertDialog alertDialog = new AlertDialog.Builder(
                                     OfflineCheckInActivity.this).create();
 
@@ -1038,7 +1037,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                                     }
                                 }
                             });
-                            //Animate alert dialog box
+                            // Animate alert dialog box
                             FragmentTransaction ft = getFragmentManager().beginTransaction();
                             ft.setCustomAnimations(android.R.animator.fade_in,
                                     android.R.animator.fade_out);
@@ -1046,7 +1045,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                             alertDialog.show();
                             alertDialog.setCancelable(false);
 
-                        }else{
+                        } else {
 
                             try {
                                 resetallfield();
@@ -1059,9 +1058,9 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
                                 @Override
                                 public void run() {
-                                    try{
+                                    try {
                                         callBT_forboom();
-                                    }catch(Exception e){
+                                    } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
@@ -1076,18 +1075,18 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             }
         }).start();
 
-
     }
+
     // print Bill using Verifone device
     private void printEazytapBillNew(String Vehicle_Number) {
-        try
-        {
-           // PrinterTester.getInstance().init();
+        try {
+            // PrinterTester.getInstance().init();
             Bitmap bitmap = null;
             JSONObject jsonRequest = new JSONObject();
             JSONObject jsonImageObj = new JSONObject();
 
-            String[] arrLocName = breakStringToLines(SharedStorage.getValue(OfflineCheckInActivity.this, "parkinglocation"), 35);
+            String[] arrLocName = breakStringToLines(
+                    SharedStorage.getValue(OfflineCheckInActivity.this, "parkinglocation"), 35);
             if (arrLocName.length <= 1) {
                 bitmap = Bitmap.createBitmap(400, 580, Bitmap.Config.ARGB_8888);
             } else {
@@ -1099,47 +1098,44 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
             Canvas canvas = new Canvas(bitmap);
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            paint.setColor(Color.rgb(0,0, 0));
+            paint.setColor(Color.rgb(0, 0, 0));
             Rect bounds = new Rect();
 
-            String strText="";
-            int x=0;
-            int y=0;
-            if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+            String strText = "";
+            int x = 0;
+            int y = 0;
+            if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
                 // Set first line in Bitmap
                 paint.setTextSize((int) (24));
-                strText = SharedStorage.getValue(getApplicationContext(),"AgencyName");
+                strText = SharedStorage.getValue(getApplicationContext(), "AgencyName");
                 paint.getTextBounds(strText, 0, strText.length(), bounds);
-                x = (bitmap.getWidth() - bounds.width())/2;
+                x = (bitmap.getWidth() - bounds.width()) / 2;
                 y = 30;
                 canvas.drawText(strText, x, y, paint);
 
-            }
-            else{
+            } else {
                 // Set first line in Bitmap
                 paint.setTextSize((int) (26));
                 strText = "INSLIP";
                 paint.getTextBounds(strText, 0, strText.length(), bounds);
-                x = (bitmap.getWidth() - bounds.width())/2;
+                x = (bitmap.getWidth() - bounds.width()) / 2;
                 y = 30;
                 canvas.drawText(strText, x, y, paint);
             }
 
             paint.setTextSize((int) (22));
 
-            for(String strLocName : arrLocName)
-            {
-                if(null != strLocName && !strLocName.trim().equals(""))
-                {
+            for (String strLocName : arrLocName) {
+                if (null != strLocName && !strLocName.trim().equals("")) {
                     paint.getTextBounds(strLocName, 0, strLocName.length(), bounds);
-                    x = (bitmap.getWidth() - bounds.width())/2;
+                    x = (bitmap.getWidth() - bounds.width()) / 2;
                     y += 24;
                     canvas.drawText(strLocName, x, y, paint);
                 }
             }
-            String gstNo = SharedStorage.getValue(OfflineCheckInActivity.this,"AgencyGSTNo");
+            String gstNo = SharedStorage.getValue(OfflineCheckInActivity.this, "AgencyGSTNo");
 
-            if(!gstNo.equals("")){
+            if (!gstNo.equals("")) {
 
                 // Set fourth line in Bitmap
                 paint.setTextSize((int) (24));
@@ -1152,18 +1148,18 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             }
             // Set fourth line in Bitmap
             paint.setTextSize((int) (22));
-            strText = "Vehicle No      : "+Vehicle_Number;
+            strText = "Vehicle No      : " + Vehicle_Number;
             paint.getTextBounds(strText, 0, strText.length(), bounds);
-            x = (bitmap.getWidth() - bounds.width())/2;
+            x = (bitmap.getWidth() - bounds.width()) / 2;
             x = 1;
             y += 62;
             canvas.drawText(strText, x, y, paint);
 
             // Set fourth line in Bitmap
             paint.setTextSize((int) (22));
-            strText = "Vehicle Type   : "+strVehicleType;
+            strText = "Vehicle Type   : " + strVehicleType;
             paint.getTextBounds(strText, 0, strText.length(), bounds);
-            x = (bitmap.getWidth() - bounds.width())/2;
+            x = (bitmap.getWidth() - bounds.width()) / 2;
             x = 1;
             y += 24;
             canvas.drawText(strText, x, y, paint);
@@ -1171,28 +1167,28 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             String dateTime[] = getDateTime();
             // Set fifth line in Bitmap
             paint.setTextSize((int) (22));
-            strText = "CheckIn Time : "+vehicleCheckInBean.getCheckintime();
+            strText = "CheckIn Time : " + vehicleCheckInBean.getCheckintime();
             paint.getTextBounds(strText, 0, strText.length(), bounds);
-            x = (bitmap.getWidth() - bounds.width())/2;
+            x = (bitmap.getWidth() - bounds.width()) / 2;
             x = 1;
             y += 24;
             canvas.drawText(strText, x, y, paint);
 
             // Set sixth line in Bitmap
             paint.setTextSize((int) (22));
-            strText = "Booking No     : "+bookingNumber;
+            strText = "Booking No     : " + bookingNumber;
             paint.getTextBounds(strText, 0, strText.length(), bounds);
-            x = (bitmap.getWidth() - bounds.width())/2;
+            x = (bitmap.getWidth() - bounds.width()) / 2;
             x = 1;
             y += 24;
             canvas.drawText(strText, x, y, paint);
 
-            //Set seven line in Bitmap
-            if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+            // Set seven line in Bitmap
+            if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
                 paint.setTextSize((int) (22));
-                strText = "Access amt : "+actualaccesscontrlamount;
+                strText = "Access amt : " + actualaccesscontrlamount;
                 paint.getTextBounds(strText, 0, strText.length(), bounds);
-                x = (bitmap.getWidth() - bounds.width())/2;
+                x = (bitmap.getWidth() - bounds.width()) / 2;
                 y += 24;
                 canvas.drawText(strText, x, y, paint);
             }
@@ -1200,60 +1196,60 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
             y += 10;
 
-            if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-                //data that will be stored in qr image
-                strVehicleNo = vehicleCheckInBean.getVehicle_number()+"##"+vehicleCheckInBean.getCheckintime()+"##"+
-                        vehicleCheckInBean.getBookingid()+"##"+vehicleCheckInBean.getVehicletype()
-                        +"##"+actualaccesscontrlamount;
+            if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
+                // data that will be stored in qr image
+                strVehicleNo = vehicleCheckInBean.getVehicle_number() + "##" + vehicleCheckInBean.getCheckintime()
+                        + "##" +
+                        vehicleCheckInBean.getBookingid() + "##" + vehicleCheckInBean.getVehicletype()
+                        + "##" + actualaccesscontrlamount;
 
-
-            }else {
-                strVehicleNo = vehicleCheckInBean.getVehicle_number()+"##"+vehicleCheckInBean.getCheckintime()+"##"+
-                        vehicleCheckInBean.getBookingid()+"##"+vehicleCheckInBean.getVehicletype();
+            } else {
+                strVehicleNo = vehicleCheckInBean.getVehicle_number() + "##" + vehicleCheckInBean.getCheckintime()
+                        + "##" +
+                        vehicleCheckInBean.getBookingid() + "##" + vehicleCheckInBean.getVehicletype();
             }
             QRCodeWriter writer = new QRCodeWriter();
             BitMatrix bitMatrix = writer.encode(strVehicleNo, BarcodeFormat.QR_CODE, 250, 250);
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();
-            //bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            // bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
             for (int xCount = 0; xCount < width; xCount++) {
                 for (int yCount = 0; yCount < height; yCount++) {
                     bitmap.setPixel(xCount + 80, yCount + y, bitMatrix.get(xCount, yCount) ? Color.BLACK : Color.WHITE);
                 }
             }
 
-            if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+            if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
                 // Set seventh line in Bitmap
                 paint.setTextSize((int) (22));
                 strText = "Loss of Ticket = 500";
                 paint.getTextBounds(strText, 0, strText.length(), bounds);
-                x = (bitmap.getWidth() - bounds.width())/2;
+                x = (bitmap.getWidth() - bounds.width()) / 2;
                 y += 264;
                 canvas.drawText(strText, x, y, paint);
 
-
-            }else {
+            } else {
                 // Set seventh line in Bitmap
                 paint.setTextSize((int) (24));
                 strText = "Download s-Parking from Play Store";
                 paint.getTextBounds(strText, 0, strText.length(), bounds);
-                x = (bitmap.getWidth() - bounds.width())/2;
+                x = (bitmap.getWidth() - bounds.width()) / 2;
                 y += 260;
                 canvas.drawText(strText, x, y, paint);
 
             }
 
-
             String encodedImageData = getEncoded64ImageStringFromBitmap(bitmap);
             // Building Image Object
             jsonImageObj.put("imageData", encodedImageData);
             jsonImageObj.put("imageType", "JPEG");
-            jsonRequest.put("image", jsonImageObj); // Pass this attribute when you have a valid captured signature image
+            jsonRequest.put("image", jsonImageObj); // Pass this attribute when you have a valid captured signature
+                                                    // image
             EzeAPI.printBitmap(OfflineCheckInActivity.this, REQUEST_CODE_PRINT_BITMAP, jsonRequest);
 
             scanResults.post(new Runnable() {
                 public void run() {
-                    //CToast.show(getApplicationContext(),status);
+                    // CToast.show(getApplicationContext(),status);
                     try {
                         Thread.sleep(300);
                         resetallfield();
@@ -1262,11 +1258,11 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                     }
                 }
             });
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
     private String getEncoded64ImageStringFromBitmap(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Bitmap bitmap = bmp;
@@ -1276,13 +1272,11 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         return encodedDate;
     }
 
-
-    /*******************  end of eazyTap printer printing code ****************/
-    //CheckAppsVersion Request
-    private void CheckAppsVersion(String packagename,String versionname) {
-        //String login_url = Urls.CheckAppsVersion+"/1/"+packagename+"/"+versionname;
+    /******************* end of eazyTap printer printing code ****************/
+    // CheckAppsVersion Request
+    private void CheckAppsVersion(String packagename, String versionname) {
+        // String login_url = Urls.CheckAppsVersion+"/1/"+packagename+"/"+versionname;
         String login_url = Urls.CheckAppVersion;
-
 
         remoteAsync = new RemoteAsync(login_url);
         remoteAsync.type = RemoteAsync.CHECKAPPVERSION;
@@ -1290,16 +1284,17 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
         String urlParams = "";
         try {
-            //_PTMoradabad
-            urlParams = "Package=" + URLEncoder.encode(packagename+"_LUCKNOW", "UTF-8") +
+            // _PTMoradabad
+            urlParams = "Package=" + URLEncoder.encode(packagename + "_LUCKNOW", "UTF-8") +
                     "&Version=" + URLEncoder.encode(versionname, "UTF-8");
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("ParamsException-->", e.getMessage());
         }
 
         remoteAsync.execute(urlParams);
-        Log.e("params>>",urlParams);
+        Log.e("params>>", urlParams);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -1308,63 +1303,63 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
     @Override
     public void onPause() {
         super.onPause();
-//        if(mScannerView!= null){
-//           // mScannerView.stopCamera();
-//        }
+        // if(mScannerView!= null){
+        // // mScannerView.stopCamera();
+        // }
 
     }
 
-//    @Override
-//    public void handleResult(Result result) {
-//        try{
-//            if (result != null)
-//            {
-//                //if qrcode has nothing in it
-//                if (result.getText() == null)
-//                {
-//                    m_TxtVStartParkingMessage.setText(getResources().getString(R.string.unable_qr_read));
-//                }
-//                else {
-//                    Log.e("result", result.getText().toString().toUpperCase());
-//
-//                    if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-//                        String qr_result = result.getText().toString().toUpperCase();
-//                        str_qrdata = qr_result.split("##");
-//                        str_checking = str_qrdata[0].split(" ");
-//                        et_checkinDate.setText(str_checking[0]);
-//                        et_checkinTime.setText(str_checking[1]);
-//                        et_bookingid.setText(str_qrdata[1]);
-//                    }else {
-//                        if (result.getText().contains("#")) {
-//
-//                            ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,getResources().getString(R.string.proper_qr_read));
-//
-//                        } else {
-//                            scanResults.setText(result.getText().toString().toUpperCase());
-//                        }
-//                    }
-//
-//                }
-//            }
-//            else
-//            {
-//                m_TxtVStartParkingMessage.setText(getResources().getString(R.string.unable_qr_read));
-//            }
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//        mScannerView.stopCameraPreview();
-//        mScannerView.stopCamera();
-//        scan_linear.setVisibility(View.GONE);
-//        scan_linear.setAnimation(bottomout);
-//        lay_scan.removeAllViews();
-//    }
+    // @Override
+    // public void handleResult(Result result) {
+    // try{
+    // if (result != null)
+    // {
+    // //if qrcode has nothing in it
+    // if (result.getText() == null)
+    // {
+    // m_TxtVStartParkingMessage.setText(getResources().getString(R.string.unable_qr_read));
+    // }
+    // else {
+    // Log.e("result", result.getText().toString().toUpperCase());
+    //
+    // if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+    // String qr_result = result.getText().toString().toUpperCase();
+    // str_qrdata = qr_result.split("##");
+    // str_checking = str_qrdata[0].split(" ");
+    // et_checkinDate.setText(str_checking[0]);
+    // et_checkinTime.setText(str_checking[1]);
+    // et_bookingid.setText(str_qrdata[1]);
+    // }else {
+    // if (result.getText().contains("#")) {
+    //
+    // ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,getResources().getString(R.string.proper_qr_read));
+    //
+    // } else {
+    // scanResults.setText(result.getText().toString().toUpperCase());
+    // }
+    // }
+    //
+    // }
+    // }
+    // else
+    // {
+    // m_TxtVStartParkingMessage.setText(getResources().getString(R.string.unable_qr_read));
+    // }
+    //
+    // }catch (Exception e){
+    // e.printStackTrace();
+    // }
+    //
+    // mScannerView.stopCameraPreview();
+    // mScannerView.stopCamera();
+    // scan_linear.setVisibility(View.GONE);
+    // scan_linear.setAnimation(bottomout);
+    // lay_scan.removeAllViews();
+    // }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        strVehicleType=spinner_Vehicle_Type.getSelectedItem().toString();
+        strVehicleType = spinner_Vehicle_Type.getSelectedItem().toString();
         iVehicleType = Integer.valueOf(dataModel.vehicletypeArrayList.get(position).getVehicleTypeId());
         tv_vehicle_type.setText(dataModel.vehicletypeArrayList.get(position).getVehicleTypeName());
 
@@ -1376,12 +1371,13 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
     }
 
     public class clientSock extends Thread {
-        public void run () {
+        public void run() {
             try {
-                mmOutputStream_forboom.writeBytes(getResources().getString(R.string.commandtofire)); // anything you want
+                mmOutputStream_forboom.writeBytes(getResources().getString(R.string.commandtofire)); // anything you
+                                                                                                     // want
                 mmOutputStream_forboom.flush();
 
-                //closeBT_forBoom();
+                // closeBT_forBoom();
                 resetallfield();// Reset Fields after checking
 
             } catch (Exception e1) {
@@ -1400,26 +1396,27 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             e.printStackTrace();
         }
     }
+
     private void initviews() {
 
         dataModel.about_advanced_dash = 1;
 
-        scanResults=(EditText) findViewById(R.id.et_Vehicleno);
-        et_owner_ph_no=(EditText)findViewById(R.id.et_owner_ph_no);
+        scanResults = (EditText) findViewById(R.id.et_Vehicleno);
+        et_owner_ph_no = (EditText) findViewById(R.id.et_owner_ph_no);
         check_pass = (CheckBox) findViewById(R.id.check_pass);
-        btn_checkin=(Button) findViewById(R.id.btn_checkin);
-        btn_ScanQR=(Button)findViewById(R.id.btn_ScanQR);
-        radioGroup_vehicletype=(RadioGroup) findViewById(R.id.radioGroup_vehicletype);
-        radioButton_twowheel=(RadioButton)findViewById(R.id.radioButton_twowheel);
-        radioButton_fourwheel=(RadioButton)findViewById(R.id.radioButton_fourwheel);
-        m_TxtVStartParkingMessage=(TextView)findViewById(R.id.TEXTVIEW_startparkingmessage);
-        tv_vehicle_type=(TextView)findViewById(R.id.tv_vehicle_type);
+        btn_checkin = (Button) findViewById(R.id.btn_checkin);
+        btn_ScanQR = (Button) findViewById(R.id.btn_ScanQR);
+        radioGroup_vehicletype = (RadioGroup) findViewById(R.id.radioGroup_vehicletype);
+        radioButton_twowheel = (RadioButton) findViewById(R.id.radioButton_twowheel);
+        radioButton_fourwheel = (RadioButton) findViewById(R.id.radioButton_fourwheel);
+        m_TxtVStartParkingMessage = (TextView) findViewById(R.id.TEXTVIEW_startparkingmessage);
+        tv_vehicle_type = (TextView) findViewById(R.id.tv_vehicle_type);
         ll_pass_main = (LinearLayout) findViewById(R.id.ll_pass_main);
         ll_check_pass = (LinearLayout) findViewById(R.id.ll_check_pass);
-        spinner_Vehicle_Type=(Spinner)findViewById(R.id.spinner_Vehicle_Type);
-        sp_store=(Spinner)findViewById(R.id.sp_store);
-        iv_printer=(ImageView)findViewById(R.id.iv_printer);
-        default_number_btn= (Button) findViewById(R.id.default_number_btn);
+        spinner_Vehicle_Type = (Spinner) findViewById(R.id.spinner_Vehicle_Type);
+        sp_store = (Spinner) findViewById(R.id.sp_store);
+        iv_printer = (ImageView) findViewById(R.id.iv_printer);
+        default_number_btn = (Button) findViewById(R.id.default_number_btn);
 
         /********** for railway check in *************/
 
@@ -1428,8 +1425,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         et_checkinTime = (EditText) findViewById(R.id.et_checkinTime);
         et_bookingid = (EditText) findViewById(R.id.et_bookingid);
 
-
-        if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+        if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
 
             freeparking_lay.setVisibility(View.VISIBLE);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1439,18 +1435,15 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             et_checkinTime.setSelection(et_checkinTime.getText().toString().length());
             et_checkinTime.addTextChangedListener(new MyTextWatcher(et_checkinTime));
 
-            //remove colon from et_checkinTime
-            et_checkinTime.setOnKeyListener(new View.OnKeyListener()
-            {
-                public boolean onKey(View v, int keyCode, KeyEvent event)
-                {
+            // remove colon from et_checkinTime
+            et_checkinTime.setOnKeyListener(new View.OnKeyListener() {
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
 
                     Log.e("getKeyCode", String.valueOf(event.getKeyCode()));
                     Log.e("keyCode", String.valueOf(keyCode));
-                    try{
-                        if(event.getKeyCode()== event.KEYCODE_DEL)
-                        {
-                            if(et_checkinTime.getText().toString().length()>0) {
+                    try {
+                        if (event.getKeyCode() == event.KEYCODE_DEL) {
+                            if (et_checkinTime.getText().toString().length() > 0) {
 
                                 if (et_checkinTime.getText().toString().length() == 3) {
 
@@ -1468,35 +1461,35 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                                     }
                                 }
                             }
-                        }else {
+                        } else {
                             Log.e("in else part", String.valueOf(keyCode));
                         }
-                    }catch (Exception e){
-                        Log.e("inside catch","inside catch");
+                    } catch (Exception e) {
+                        Log.e("inside catch", "inside catch");
                         e.printStackTrace();
-                        Log.e("exception",e.getMessage());
+                        Log.e("exception", e.getMessage());
                     }
 
                     return false;
                 }
             });
 
-            //long currentTimeMillis ()-Returns the current time in milliseconds.
+            // long currentTimeMillis ()-Returns the current time in milliseconds.
             long millis = System.currentTimeMillis();
 
-            //Divide millis by 1000 to get the number of seconds.
+            // Divide millis by 1000 to get the number of seconds.
             long seconds = millis / 1000;
 
             Log.e("seconds_booking", String.valueOf(seconds));
 
             parkingareaid = SharedStorage.getValue(getApplicationContext(), "parking_area_id");
 
-            Log.e("parkingareaid",parkingareaid);
+            Log.e("parkingareaid", parkingareaid);
 
-            //to maintain 3digits for parking area id
-            if (parkingareaid.length() == 1){
+            // to maintain 3digits for parking area id
+            if (parkingareaid.length() == 1) {
                 parkingareaid = "00" + parkingareaid;
-            }else if (parkingareaid.length() == 2){
+            } else if (parkingareaid.length() == 2) {
                 parkingareaid = "0" + parkingareaid;
             }
 
@@ -1507,25 +1500,23 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             et_bookingid.setText(createbooking_id.substring(0, createbooking_id.length() - 5) + "-");
             et_bookingid.setSelection(et_bookingid.getText().toString().length());
 
-        }
-        else{
+        } else {
             freeparking_lay.setVisibility(View.GONE);
         }
 
-
         /********* in that page scan ***************/
-        lay_scan= (LinearLayout) findViewById(R.id.lay_scan);
-        scan_linear= (RelativeLayout) findViewById(R.id.scan_linear);
-        disable_scan_qr= (ImageView) findViewById(R.id.disable_scan_qr);
+        lay_scan = (LinearLayout) findViewById(R.id.lay_scan);
+        scan_linear = (RelativeLayout) findViewById(R.id.scan_linear);
+        disable_scan_qr = (ImageView) findViewById(R.id.disable_scan_qr);
         bottomin = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.trans_bottom_in);
         bottomout = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.trans_bottom_out);
 
         spinner_Vehicle_Type.setOnItemSelectedListener(this);
-        if (dataModel.vehicletypeArrayList.size()>0){
+        if (dataModel.vehicletypeArrayList.size() > 0) {
             vehicletypeArrayList = dataModel.vehicletypeArrayList;
-        }else{
+        } else {
             vehicletypeArrayList.add(new VehicleType("0", getResources().getString(R.string.selectvtype)));
             vehicletypeArrayList.add(new VehicleType("1", "Two Wheeler"));
             vehicletypeArrayList.add(new VehicleType("2", "Four Wheeler"));
@@ -1538,13 +1529,13 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         // Spinner value settings
         // spinner_Vehicle_Type.setSelection(0);
 
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item, vehicletypeArrayList);
+        ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, vehicletypeArrayList);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner_Vehicle_Type.setAdapter(aa);
         aa.notifyDataSetChanged();
 
-        if(iVehicleType!= 0){
+        if (iVehicleType != 0) {
             spinner_Vehicle_Type.setSelection(iVehicleType);
 
         }
@@ -1565,53 +1556,52 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton rb = (RadioButton) group.findViewById(checkedId);
                 if (null != rb && checkedId > -1) {
-                    if(checkedId == R.id.radioButton_twowheel){
+                    if (checkedId == R.id.radioButton_twowheel) {
 
                         radiocheck[0] = "1";
-                        iVehicleType=1;
+                        iVehicleType = 1;
 
-                    }else if(checkedId == R.id.radioButton_fourwheel){
+                    } else if (checkedId == R.id.radioButton_fourwheel) {
 
                         radiocheck[0] = "2";
-                        iVehicleType=2;
+                        iVehicleType = 2;
                     }
                 }
             }
         });
 
         scanResults.setFilters(new InputFilter[] { filter });
-        if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+        if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
             scanResults.setText(getResources().getString(R.string.statecode_ts));
-        }else {
+        } else {
             scanResults.setText(getResources().getString(R.string.statecode));
         }
 
         scanResults.setSelection(scanResults.getText().toString().length());
 
-        m_TxtVStartParkingMessage = (TextView)findViewById(R.id.TEXTVIEW_startparkingmessage);
+        m_TxtVStartParkingMessage = (TextView) findViewById(R.id.TEXTVIEW_startparkingmessage);
 
         check_pass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     passapplied = "1";
                     sp_store.setVisibility(View.VISIBLE);
 
-                }else {
-                    passapplied= "0";
+                } else {
+                    passapplied = "0";
                     strStoreid = "0";
                     sp_store.setVisibility(View.GONE);
                 }
             }
         });
 
-        if (!SharedStorage.getValue(OfflineCheckInActivity.this,"printer_name").equals("")){
+        if (!SharedStorage.getValue(OfflineCheckInActivity.this, "printer_name").equals("")) {
 
             floatView = FloatView.getInstance(OfflineCheckInActivity.this);
 
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -1623,19 +1613,19 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         return super.onOptionsItemSelected(item);
     }
 
-    //to find bluetooth device
+    // to find bluetooth device
     @SuppressLint("MissingPermission")
     private void findBT() {
 
         try {
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-            if(mBluetoothAdapter == null) {
-                /*myLabel.setText("No bluetooth adapter available");*/
+            if (mBluetoothAdapter == null) {
+                /* myLabel.setText("No bluetooth adapter available"); */
             }
 
-            if(!mBluetoothAdapter.isEnabled()) {
-                if(dataModel.isbluetoothon == 0){
+            if (!mBluetoothAdapter.isEnabled()) {
+                if (dataModel.isbluetoothon == 0) {
                     Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                     startActivityForResult(enableBluetooth, 0);
                 }
@@ -1644,22 +1634,22 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             Boolean isnotconnected = true;
             Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 
-            if(pairedDevices.size() > 0) {
+            if (pairedDevices.size() > 0) {
                 for (BluetoothDevice device : pairedDevices) {
 
                     // RPP300 is the name of the bluetooth printer device
                     // we got this name from the list of paired devices
-                    if (device.getName().equals(SharedStorage.getValue(OfflineCheckInActivity.this,"printer_name"))) {
-                        Log.e("device",device.getName());
+                    if (device.getName().equals(SharedStorage.getValue(OfflineCheckInActivity.this, "printer_name"))) {
+                        Log.e("device", device.getName());
                         mmDevice = device;
                         isnotconnected = false;
-                        //openBT();
+                        // openBT();
                         break;
                     }
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
             iv_printer.setVisibility(View.GONE);
             e.printStackTrace();
         }
@@ -1668,8 +1658,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
     public static String insertString(
             String originalString,
             String stringToBeInserted,
-            int index)
-    {
+            int index) {
 
         // Create a new string
         String newString = new String();
@@ -1690,7 +1679,6 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         return newString;
     }
 
-
     @Override
     public void onClick(View view) {
 
@@ -1700,16 +1688,19 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
                 btn_checkin.setClickable(false);
                 btn_checkin.setEnabled(false);
-                if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){//check in for access control parking
+                if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {// check in for
+                                                                                                         // access
+                                                                                                         // control
+                                                                                                         // parking
 
-                    if (et_owner_ph_no.getText().toString().trim().equals("")){
+                    if (et_owner_ph_no.getText().toString().trim().equals("")) {
 
                         StringBuilder defaultnumber = new StringBuilder();
 
-                        for(int i = 0;i<=getResources().getString(R.string.defaultmobilenumber).length();i++){
-                            if(i>=5){
+                        for (int i = 0; i <= getResources().getString(R.string.defaultmobilenumber).length(); i++) {
+                            if (i >= 5) {
                                 defaultnumber.append("X");
-                            }else{
+                            } else {
                                 defaultnumber.append(getResources().getString(R.string.defaultmobilenumber).charAt(i));
                             }
                         }
@@ -1724,505 +1715,513 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                 if (isValid(scanResults.getText().toString().trim())) {
                     strVehicleNumber = scanResults.getText().toString().trim();
 
-                   if(et_owner_ph_no.getText().toString().contains("X")){
+                    if (et_owner_ph_no.getText().toString().contains("X")) {
+
+                        strMobileNumber = getResources().getString(R.string.defaultmobilenumber);
+
+                        String dateTime[] = getDateTime();
+                        String checkintime = dateTime[0] + " " + dateTime[1];
+
+                        if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
 
-                       strMobileNumber = getResources().getString(R.string.defaultmobilenumber);
+                            bookingNumber = et_bookingid.getText().toString().trim();
 
-                       String dateTime[] = getDateTime();
-                       String checkintime = dateTime[0]+" "+dateTime[1];
+                            actualaccesscontrlamount = accesscontrolamount(checkintime);
 
-                       if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-
-                           bookingNumber = et_bookingid.getText().toString().trim();
-
-                           actualaccesscontrlamount = accesscontrolamount(checkintime);
-
-                       }else{
-                           long millis = System.currentTimeMillis();
-
-                           //Divide millis by 1000 to get the number of seconds.
-                           long seconds = millis / 1000;
-
-                           String parkingareaid = SharedStorage.getValue(getApplicationContext(), "parking_area_id");
-
-                           Log.e("parkingareaid",parkingareaid);
-
-                           if (parkingareaid.length() == 1){
-                               parkingareaid = "00" + parkingareaid;
-                           }else if (parkingareaid.length() == 2){
-                               parkingareaid = "0" + parkingareaid;
-                           }
-
-                           Log.e("booking_number", String.valueOf(seconds));
-                           bookingNumber = parkingareaid+"-"+insertString(String.valueOf(seconds),
-                                   "-",4);
-                       }
-
-                       //long currentTimeMillis ()-Returns the current time in milliseconds.
-
-
-                       Log.e("bookingNumber",bookingNumber);
-
-                       vehicleCheckInBean = null;
-                       //store values in bean class to save database
-                       vehicleCheckInBean = new VehicleCheckInBean(strVehicleNumber,checkintime,
-                               String.valueOf(iVehicleType),strMobileNumber,passapplied,strStoreid,"0",bookingNumber,"0",0);
-
-                       if (SharedStorage.getValue(OfflineCheckInActivity.this,"printer_name").equals("")) {
-                           et_owner_ph_no.setText("");
-                           radioGroup_vehicletype.clearCheck();
-                           spinner_Vehicle_Type.setSelection(iVehicleType);
-                           if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-                               scanResults.setText("TS");
-                           }else {
-                               scanResults.setText("UP32");
-                           }
-
-                           scanResults.setSelection(scanResults.getText().toString().length());
-                           final AlertDialog alertDialog = new AlertDialog.Builder(
-                                   this).create();
-
-                           final LayoutInflater inflater = this.getLayoutInflater();
-                           View dialogView = inflater.inflate(R.layout.custom_bill_dilog_new_simple, null);
-                           alertDialog.setView(dialogView);
-
-                           TextView msg_txt = (TextView) dialogView.findViewById(R.id.messageid);
-                           TextView txt_booking_no = (TextView) dialogView.findViewById(R.id.txt_booking_no);
-                           TextView txt_vechile_no = (TextView) dialogView.findViewById(R.id.txt_vechile_no);
-                           TextView txt_check_in_time = (TextView) dialogView.findViewById(R.id.txt_check_in_time);
-                           Button bt_cash = (Button) dialogView.findViewById(R.id.btnOk);
-                           Button bt_cancel = (Button) dialogView.findViewById(R.id.btnCancel);
-                           TextView title = (TextView) dialogView.findViewById(R.id.title);
-                           title.setText(getResources().getString(R.string.app_name_title));
-                           txt_booking_no.setText(vehicleCheckInBean.getBookingid());
-                           txt_vechile_no.setText(vehicleCheckInBean.getVehicle_number());
-                           txt_check_in_time.setText(vehicleCheckInBean.getCheckintime());
-                           bt_cash.setText(getResources().getString(R.string.ok));
-                           msg_txt.setText(getResources().getString(R.string.parking_succesfully));
-
-                           bt_cash.setOnClickListener(new View.OnClickListener() {
-                               @Override
-                               public void onClick(View view) {
-                                   alertDialog.dismiss();
-
-                                   //add bean values to local database for offline use
-                                   databaseHandler.addofflineVehicleCheckIn(vehicleCheckInBean);
-                                   try {
-                                       if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-                                           et_checkinTime.setText("");
-                                           long millis = System.currentTimeMillis();
-
-                                           //Divide millis by 1000 to get the number of seconds.
-                                           long seconds = millis / 1000;
-
-                                           Log.e("seconds_booking", String.valueOf(seconds));
-
-                                           parkingareaid = SharedStorage.getValue(getApplicationContext(), "parking_area_id");
-
-                                           Log.e("parkingareaid",parkingareaid);
-
-                                           if (parkingareaid.length() == 1){
-                                               parkingareaid = "00" + parkingareaid;
-                                           }else if (parkingareaid.length() == 2){
-                                               parkingareaid = "0" + parkingareaid;
-                                           }
-
-                                           String createbooking_id = parkingareaid + "-" + String.valueOf(seconds);
-
-                                           Log.e("seconds_booking", createbooking_id);
-
-                                           et_bookingid.setText(createbooking_id.substring(0, createbooking_id.length() - 5) + "-");
-                                           et_bookingid.setSelection(et_bookingid.getText().toString().length());
-                                       }
-                                       et_owner_ph_no.setText("");
-                                       radioGroup_vehicletype.clearCheck();
-                                       spinner_Vehicle_Type.setSelection(iVehicleType);
-
-                                       if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-                                           scanResults.setText(getResources().getString(R.string.statecode_ts));
-                                       }else {
-                                           scanResults.setText(getResources().getString(R.string.statecode));
-                                       }
-
-                                       scanResults.setSelection(scanResults.getText().toString().length());
-
-                                       resetallfield();
-                                   } catch (Exception e) {
-                                       e.printStackTrace();
-                                   }
-                               }
-                           });
-
-                           bt_cancel.setOnClickListener(new View.OnClickListener() {
-                               @Override
-                               public void onClick(View v) {
-                                   alertDialog.dismiss();
-                                   resetallfield();
-                               }
-                           });
-                           //Animate alert dialog box
-                           FragmentTransaction ft = getFragmentManager().beginTransaction();
-                           ft.setCustomAnimations(android.R.animator.fade_in,
-                                   android.R.animator.fade_out);
-                           // Showing Alert Message
-                           alertDialog.show();
-                           alertDialog.setCancelable(false);
-
-                       }
-                       else if (SharedStorage.getValue(OfflineCheckInActivity.this,"printer_name").equals("eazy_Tap")) {
-
-                           try {
-                               //add bean values to local database for offline use
-                               databaseHandler.addofflineVehicleCheckIn(vehicleCheckInBean);
-                               databaseHandler.addofflineVehicleCheckInNotSync(vehicleCheckInBean);
-
-                               final AlertDialog alertDialog = new AlertDialog.Builder(
-                                       this).create();
-
-                               final LayoutInflater inflater = this.getLayoutInflater();
-                               View dialogView = inflater.inflate(R.layout.custom_bill_dilog_new_simple, null);
-                               alertDialog.setView(dialogView);
-
-                               TextView msg_txt = (TextView) dialogView.findViewById(R.id.messageid);
-                               TextView txt_booking_no = (TextView) dialogView.findViewById(R.id.txt_booking_no);
-                               TextView txt_vechile_no = (TextView) dialogView.findViewById(R.id.txt_vechile_no);
-                               TextView txt_check_in_time = (TextView) dialogView.findViewById(R.id.txt_check_in_time);
-                               Button bt_cash = (Button) dialogView.findViewById(R.id.btnOk);
-                               Button bt_cancel = (Button) dialogView.findViewById(R.id.btnCancel);
-                               TextView title = (TextView) dialogView.findViewById(R.id.title);
-                               title.setText(getResources().getString(R.string.app_name_title));
-                               txt_booking_no.setText(vehicleCheckInBean.getBookingid());
-                               txt_vechile_no.setText(vehicleCheckInBean.getVehicle_number());
-                               txt_check_in_time.setText(vehicleCheckInBean.getCheckintime());
-                               bt_cash.setText(getResources().getString(R.string.ok));
-                               msg_txt.setText(getResources().getString(R.string.parking_succesfully));
-
-                               bt_cash.setOnClickListener(new View.OnClickListener() {
-                                   @Override
-                                   public void onClick(View view) {
-                                       alertDialog.dismiss();
-
-                                       //sendData();
-                                       //printBill();
-                                       printEazytapBillUsingSDK(vehicleCheckInBean.getVehicle_number());
-
-                                       if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-                                           //print slip
-                                           try {
-                                               // printEazytapBill(vehicleCheckInBean.getVehicle_number());
-                                               // printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
-
-                                               btn_checkin.setClickable(false);
-                                               btn_checkin.setEnabled(false);
-                                           } catch (Exception e) {
-
-                                               e.printStackTrace();
-                                               resetallfield();
-                                           }
-                                       }
-                                       else {
-                                           //print slip
-                                           try {
-                                               // printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
-                                               printEazytapBillUsingSDK(vehicleCheckInBean.getVehicle_number());
-                                               // printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
-                                               btn_checkin.setClickable(true);
-                                               btn_checkin.setEnabled(true);
-                                           } catch (Exception e) {
-                                               ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,"printer not found");
-                                               e.printStackTrace();
-                                               resetallfield();
-                                           }
-
-                                       }
-                                    /*Thread.sleep(1000);
-                                    closeBT();*/
-                                       //printPhoto();
-                                   }
-                               });
-
-                               bt_cancel.setOnClickListener(new View.OnClickListener() {
-                                   @Override
-                                   public void onClick(View v) {
-                                       alertDialog.dismiss();
-                                       resetallfield();
-                                       btn_checkin.setClickable(true);
-                                       btn_checkin.setEnabled(true);
-                                   }
-                               });
-                               //Animate alert dialog box
-                               FragmentTransaction ft = getFragmentManager().beginTransaction();
-                               ft.setCustomAnimations(android.R.animator.fade_in,
-                                       android.R.animator.fade_out);
-                               // Showing Alert Message
-                               alertDialog.show();
-                               alertDialog.setCancelable(false);
-
-
-
-                           } catch (Exception e) {
-                               resetallfield();
-                               btn_checkin.setClickable(true);
-                               btn_checkin.setEnabled(true);
-                               e.printStackTrace();
-                           }
-
-
-                       }
-                       else if (SharedStorage.getValue(OfflineCheckInActivity.this,"printer_name").equals("verifone")) {
-
-                           try {
-                               //add bean values to local database for offline use
-                               databaseHandler.addofflineVehicleCheckIn(vehicleCheckInBean);
-
-
-                               //sendData();
-                               //printBill();
-                               if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-                                   //print slip
-                                   try {
-                                       printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
-
-                                       btn_checkin.setClickable(false);
-                                       btn_checkin.setEnabled(false);
-                                   } catch (Exception e) {
-
-                                       e.printStackTrace();
-                                       resetallfield();
-                                   }
-                               }else {
-                                   //print slip
-                                   try {
-                                       printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
-                                       btn_checkin.setClickable(false);
-                                       btn_checkin.setEnabled(false);
-                                   } catch (Exception e) {
-                                       ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,"printer not found");
-                                       e.printStackTrace();
-                                       resetallfield();
-                                   }
-
-                               }
-                                    /*Thread.sleep(1000);
-                                    closeBT();*/
-                               //printPhoto();
-                           } catch (Exception e) {
-                               resetallfield();
-                               btn_checkin.setClickable(true);
-                               btn_checkin.setEnabled(true);
-                               e.printStackTrace();
-                           }
-
-
-                       }
-
-
-
-                   }
-                   //when mobile number is not default number
-                   else  if(isValidMobile(et_owner_ph_no.getText().toString().trim())){
-
-                       strMobileNumber = et_owner_ph_no.getText().toString().trim();
-
-                       String dateTime[] = getDateTime();
-                       String checkintime = dateTime[0]+" "+dateTime[1];
-
-                       if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-
-                           bookingNumber = et_bookingid.getText().toString().trim();
-                           actualaccesscontrlamount = accesscontrolamount(checkintime);
-
-                       }else {
-                           //long currentTimeMillis ()-Returns the current time in milliseconds.
-                           long millis = System.currentTimeMillis();
-
-                            //Divide millis by 1000 to get the number of seconds.
-                           long seconds = millis / 1000;
-
-                           Log.e("booking_number", String.valueOf(seconds));
-
-                           /*bookingNumber = String.valueOf(seconds);*/
-
-                           String parkingareaid = SharedStorage.getValue(getApplicationContext(), "parking_area_id");
-
-                           Log.e("parkingareaid",parkingareaid);
-
-                           if (parkingareaid.length() == 1){
-                               parkingareaid = "00" + parkingareaid;
-                           }else if (parkingareaid.length() == 2){
-                               parkingareaid = "0" + parkingareaid;
-                           }
-
-                           bookingNumber = parkingareaid+"-"+insertString(String.valueOf(seconds),
-                                   "-",4);
-                       }
-
-                       Log.e("bookingNumber",bookingNumber);
-
-                       vehicleCheckInBean = null;
-                       //save values for offline use
-                       vehicleCheckInBean = new VehicleCheckInBean(strVehicleNumber,checkintime,
-                               String.valueOf(iVehicleType),strMobileNumber,passapplied,strStoreid,"0",bookingNumber,"0",0);
-
-
-                       if (SharedStorage.getValue(OfflineCheckInActivity.this,"printer_name").equals("")) {
-                           et_owner_ph_no.setText("");
-                           radioGroup_vehicletype.clearCheck();
-                           spinner_Vehicle_Type.setSelection(iVehicleType);
-                           if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-                               scanResults.setText("TS");
-                           }else {
-                               scanResults.setText("WB");
-                           }
-                           scanResults.setSelection(scanResults.getText().toString().length());
-
-                           /*ShowAlertDialog.showAlertDialog(this,getResources().getString(R.string.parking_succesfully));*/
-
-                           final AlertDialog alertDialog = new AlertDialog.Builder(
-                                   this).create();
-
-                           final LayoutInflater inflater = this.getLayoutInflater();
-                           View dialogView = inflater.inflate(R.layout.custom_bill_dilog_new_simple, null);
-                           alertDialog.setView(dialogView);
-
-                           TextView msg_txt = (TextView) dialogView.findViewById(R.id.messageid);
-                           TextView txt_booking_no = (TextView) dialogView.findViewById(R.id.txt_booking_no);
-                           TextView txt_vechile_no = (TextView) dialogView.findViewById(R.id.txt_vechile_no);
-                           TextView txt_check_in_time = (TextView) dialogView.findViewById(R.id.txt_check_in_time);
-                           Button bt_cash = (Button) dialogView.findViewById(R.id.btnOk);
-                           Button bt_cancel = (Button) dialogView.findViewById(R.id.btnCancel);
-                           TextView title = (TextView) dialogView.findViewById(R.id.title);
-                           title.setText(getResources().getString(R.string.app_name_title));
-                           txt_booking_no.setText(vehicleCheckInBean.getBookingid());
-                           txt_vechile_no.setText(vehicleCheckInBean.getVehicle_number());
-                           txt_check_in_time.setText(vehicleCheckInBean.getCheckintime());
-                           bt_cash.setText(getResources().getString(R.string.ok));
-                           msg_txt.setText(getResources().getString(R.string.parking_succesfully));
-
-                           bt_cash.setOnClickListener(new View.OnClickListener() {
-                               @Override
-                               public void onClick(View view) {
-                                   alertDialog.dismiss();
-                                   //add bean values to local database for offline use
-                                   databaseHandler.addofflineVehicleCheckIn(vehicleCheckInBean);
-
-                               }
-                           });
-
-                           bt_cancel.setOnClickListener(new View.OnClickListener() {
-                               @Override
-                               public void onClick(View view) {
-                                   alertDialog.dismiss();
-                                 resetallfield();
-
-                               }
-                           });
-                           //Animate alert dialog box
-                           FragmentTransaction ft = getFragmentManager().beginTransaction();
-                           ft.setCustomAnimations(android.R.animator.fade_in,
-                                   android.R.animator.fade_out);
-                           // Showing Alert Message
-                           alertDialog.show();
-                           alertDialog.setCancelable(false);
-
-                       }
-                       else if (SharedStorage.getValue(OfflineCheckInActivity.this,"printer_name").equals("eazy_Tap")) {
-
-
-                           final AlertDialog alertDialog = new AlertDialog.Builder(
-                                   this).create();
-
-                           final LayoutInflater inflater = this.getLayoutInflater();
-                           View dialogView = inflater.inflate(R.layout.custom_bill_dialog_new, null);
-                           alertDialog.setView(dialogView);
-
-                           TextView msg_txt = (TextView) dialogView.findViewById(R.id.messageid);
-                           TextView txt_booking_no = (TextView) dialogView.findViewById(R.id.txt_booking_no);
-                           TextView txt_vechile_no = (TextView) dialogView.findViewById(R.id.txt_vechile_no);
-                           TextView txt_check_in_time = (TextView) dialogView.findViewById(R.id.txt_check_in_time);
-                           Button bt_cash = (Button) dialogView.findViewById(R.id.bt_cash1);
-                           Button bt_cancel = (Button) dialogView.findViewById(R.id.bt_cancel1);
-                           TextView title = (TextView) dialogView.findViewById(R.id.title);
-                           title.setText(getResources().getString(R.string.app_name_title));
-                           txt_booking_no.setText(vehicleCheckInBean.getBookingid());
-                           txt_vechile_no.setText(vehicleCheckInBean.getVehicle_number());
-                           txt_check_in_time.setText(vehicleCheckInBean.getCheckintime());
-                           bt_cash.setText(getResources().getString(R.string.print));
-                           msg_txt.setText(getResources().getString(R.string.parking_succesfully));
-
-                           bt_cash.setOnClickListener(new View.OnClickListener() {
-                               @SuppressLint("NewApi")
-                               @Override
-                               public void onClick(View view) {
-                                   alertDialog.dismiss();
-                                   try {
-                                       //add bean values to local database for offline use
-                                       databaseHandler.addofflineVehicleCheckIn(vehicleCheckInBean);
-                                       //sendData();
-                                       //printBill();
-                                       if (SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
-                                           //print slip
-                                           try {
-                                              // printEazytapBill();
-                                               //printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
-                                               printEazytapBillUsingSDK(vehicleCheckInBean.getVehicle_number());
-                                               btn_checkin.setClickable(true);
-                                               btn_checkin.setEnabled(true);
-                                           } catch (Exception e) {
-
-                                               e.printStackTrace();
-                                               resetallfield();
-                                           }
-                                       }else {
-                                           //print slip
-                                           try {
-                                               //printEazytapBill();
-                                              // printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
-                                               printEazytapBillUsingSDK(vehicleCheckInBean.getVehicle_number());
-                                               btn_checkin.setClickable(true);
-                                               btn_checkin.setEnabled(true);
-                                           } catch (Exception e) {
-
-                                               e.printStackTrace();
-                                               resetallfield();
-                                               btn_checkin.setClickable(true);
-                                               btn_checkin.setEnabled(true);
-                                           }
-
-                                       }
-                                    /*Thread.sleep(1000);
-                                    closeBT();*/
-                                       //printPhoto();
-                                   } catch (Exception e) {
-                                       btn_checkin.setClickable(true);
-                                       btn_checkin.setEnabled(true);
-                                       resetallfield();
-                                       e.printStackTrace();
-                                   }
-
-                               }
-                           });
-                           bt_cancel.setOnClickListener(new View.OnClickListener() {
-                               @Override
-                               public void onClick(View view) {
-                                   alertDialog.dismiss();
-                                   resetallfield();
-
-                               }
-                           });
-                           //Animate alert dialog box
-                           FragmentTransaction ft = getFragmentManager().beginTransaction();
-                           ft.setCustomAnimations(android.R.animator.fade_in,
-                                   android.R.animator.fade_out);
-                           // Showing Alert Message
-                           alertDialog.show();
-                           alertDialog.setCancelable(false);
-
-                       }
-
-                   }
-                }
-                else {
+                        } else {
+                            long millis = System.currentTimeMillis();
+
+                            // Divide millis by 1000 to get the number of seconds.
+                            long seconds = millis / 1000;
+
+                            String parkingareaid = SharedStorage.getValue(getApplicationContext(), "parking_area_id");
+
+                            Log.e("parkingareaid", parkingareaid);
+
+                            if (parkingareaid.length() == 1) {
+                                parkingareaid = "00" + parkingareaid;
+                            } else if (parkingareaid.length() == 2) {
+                                parkingareaid = "0" + parkingareaid;
+                            }
+
+                            Log.e("booking_number", String.valueOf(seconds));
+                            bookingNumber = parkingareaid + "-" + insertString(String.valueOf(seconds),
+                                    "-", 4);
+                        }
+
+                        // long currentTimeMillis ()-Returns the current time in milliseconds.
+
+                        Log.e("bookingNumber", bookingNumber);
+
+                        vehicleCheckInBean = null;
+                        // store values in bean class to save database
+                        vehicleCheckInBean = new VehicleCheckInBean(strVehicleNumber, checkintime,
+                                String.valueOf(iVehicleType), strMobileNumber, passapplied, strStoreid, "0",
+                                bookingNumber, "0", 0);
+
+                        if (SharedStorage.getValue(OfflineCheckInActivity.this, "printer_name").equals("")) {
+                            et_owner_ph_no.setText("");
+                            radioGroup_vehicletype.clearCheck();
+                            spinner_Vehicle_Type.setSelection(iVehicleType);
+                            if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
+                                scanResults.setText("TS");
+                            } else {
+                                scanResults.setText("UP32");
+                            }
+
+                            scanResults.setSelection(scanResults.getText().toString().length());
+                            final AlertDialog alertDialog = new AlertDialog.Builder(
+                                    this).create();
+
+                            final LayoutInflater inflater = this.getLayoutInflater();
+                            View dialogView = inflater.inflate(R.layout.custom_bill_dilog_new_simple, null);
+                            alertDialog.setView(dialogView);
+
+                            TextView msg_txt = (TextView) dialogView.findViewById(R.id.messageid);
+                            TextView txt_booking_no = (TextView) dialogView.findViewById(R.id.txt_booking_no);
+                            TextView txt_vechile_no = (TextView) dialogView.findViewById(R.id.txt_vechile_no);
+                            TextView txt_check_in_time = (TextView) dialogView.findViewById(R.id.txt_check_in_time);
+                            Button bt_cash = (Button) dialogView.findViewById(R.id.btnOk);
+                            Button bt_cancel = (Button) dialogView.findViewById(R.id.btnCancel);
+                            TextView title = (TextView) dialogView.findViewById(R.id.title);
+                            title.setText(getResources().getString(R.string.app_name_title));
+                            txt_booking_no.setText(vehicleCheckInBean.getBookingid());
+                            txt_vechile_no.setText(vehicleCheckInBean.getVehicle_number());
+                            txt_check_in_time.setText(vehicleCheckInBean.getCheckintime());
+                            bt_cash.setText(getResources().getString(R.string.ok));
+                            msg_txt.setText(getResources().getString(R.string.parking_succesfully));
+
+                            bt_cash.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    alertDialog.dismiss();
+
+                                    // add bean values to local database for offline use
+                                    databaseHandler.addofflineVehicleCheckIn(vehicleCheckInBean);
+                                    try {
+                                        if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility")
+                                                .equals("1")) {
+                                            et_checkinTime.setText("");
+                                            long millis = System.currentTimeMillis();
+
+                                            // Divide millis by 1000 to get the number of seconds.
+                                            long seconds = millis / 1000;
+
+                                            Log.e("seconds_booking", String.valueOf(seconds));
+
+                                            parkingareaid = SharedStorage.getValue(getApplicationContext(),
+                                                    "parking_area_id");
+
+                                            Log.e("parkingareaid", parkingareaid);
+
+                                            if (parkingareaid.length() == 1) {
+                                                parkingareaid = "00" + parkingareaid;
+                                            } else if (parkingareaid.length() == 2) {
+                                                parkingareaid = "0" + parkingareaid;
+                                            }
+
+                                            String createbooking_id = parkingareaid + "-" + String.valueOf(seconds);
+
+                                            Log.e("seconds_booking", createbooking_id);
+
+                                            et_bookingid.setText(
+                                                    createbooking_id.substring(0, createbooking_id.length() - 5) + "-");
+                                            et_bookingid.setSelection(et_bookingid.getText().toString().length());
+                                        }
+                                        et_owner_ph_no.setText("");
+                                        radioGroup_vehicletype.clearCheck();
+                                        spinner_Vehicle_Type.setSelection(iVehicleType);
+
+                                        if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility")
+                                                .equals("1")) {
+                                            scanResults.setText(getResources().getString(R.string.statecode_ts));
+                                        } else {
+                                            scanResults.setText(getResources().getString(R.string.statecode));
+                                        }
+
+                                        scanResults.setSelection(scanResults.getText().toString().length());
+
+                                        resetallfield();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
+                            bt_cancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    alertDialog.dismiss();
+                                    resetallfield();
+                                }
+                            });
+                            // Animate alert dialog box
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.setCustomAnimations(android.R.animator.fade_in,
+                                    android.R.animator.fade_out);
+                            // Showing Alert Message
+                            alertDialog.show();
+                            alertDialog.setCancelable(false);
+
+                        } else if (SharedStorage.getValue(OfflineCheckInActivity.this, "printer_name")
+                                .equals("eazy_Tap")) {
+
+                            try {
+                                // add bean values to local database for offline use
+                                databaseHandler.addofflineVehicleCheckIn(vehicleCheckInBean);
+                                databaseHandler.addofflineVehicleCheckInNotSync(vehicleCheckInBean);
+
+                                final AlertDialog alertDialog = new AlertDialog.Builder(
+                                        this).create();
+
+                                final LayoutInflater inflater = this.getLayoutInflater();
+                                View dialogView = inflater.inflate(R.layout.custom_bill_dilog_new_simple, null);
+                                alertDialog.setView(dialogView);
+
+                                TextView msg_txt = (TextView) dialogView.findViewById(R.id.messageid);
+                                TextView txt_booking_no = (TextView) dialogView.findViewById(R.id.txt_booking_no);
+                                TextView txt_vechile_no = (TextView) dialogView.findViewById(R.id.txt_vechile_no);
+                                TextView txt_check_in_time = (TextView) dialogView.findViewById(R.id.txt_check_in_time);
+                                Button bt_cash = (Button) dialogView.findViewById(R.id.btnOk);
+                                Button bt_cancel = (Button) dialogView.findViewById(R.id.btnCancel);
+                                TextView title = (TextView) dialogView.findViewById(R.id.title);
+                                title.setText(getResources().getString(R.string.app_name_title));
+                                txt_booking_no.setText(vehicleCheckInBean.getBookingid());
+                                txt_vechile_no.setText(vehicleCheckInBean.getVehicle_number());
+                                txt_check_in_time.setText(vehicleCheckInBean.getCheckintime());
+                                bt_cash.setText(getResources().getString(R.string.ok));
+                                msg_txt.setText(getResources().getString(R.string.parking_succesfully));
+
+                                bt_cash.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        alertDialog.dismiss();
+
+                                        // sendData();
+                                        // printBill();
+                                        printEazytapBillUsingSDK(vehicleCheckInBean.getVehicle_number());
+
+                                        if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility")
+                                                .equals("1")) {
+                                            // print slip
+                                            try {
+                                                // printEazytapBill(vehicleCheckInBean.getVehicle_number());
+                                                // printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
+
+                                                btn_checkin.setClickable(false);
+                                                btn_checkin.setEnabled(false);
+                                            } catch (Exception e) {
+
+                                                e.printStackTrace();
+                                                resetallfield();
+                                            }
+                                        } else {
+                                            // print slip
+                                            try {
+                                                // printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
+                                                printEazytapBillUsingSDK(vehicleCheckInBean.getVehicle_number());
+                                                // printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
+                                                btn_checkin.setClickable(true);
+                                                btn_checkin.setEnabled(true);
+                                            } catch (Exception e) {
+                                                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,
+                                                        "printer not found");
+                                                e.printStackTrace();
+                                                resetallfield();
+                                            }
+
+                                        }
+                                        /*
+                                         * Thread.sleep(1000);
+                                         * closeBT();
+                                         */
+                                        // printPhoto();
+                                    }
+                                });
+
+                                bt_cancel.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        alertDialog.dismiss();
+                                        resetallfield();
+                                        btn_checkin.setClickable(true);
+                                        btn_checkin.setEnabled(true);
+                                    }
+                                });
+                                // Animate alert dialog box
+                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.setCustomAnimations(android.R.animator.fade_in,
+                                        android.R.animator.fade_out);
+                                // Showing Alert Message
+                                alertDialog.show();
+                                alertDialog.setCancelable(false);
+
+                            } catch (Exception e) {
+                                resetallfield();
+                                btn_checkin.setClickable(true);
+                                btn_checkin.setEnabled(true);
+                                e.printStackTrace();
+                            }
+
+                        } else if (SharedStorage.getValue(OfflineCheckInActivity.this, "printer_name")
+                                .equals("verifone")) {
+
+                            try {
+                                // add bean values to local database for offline use
+                                databaseHandler.addofflineVehicleCheckIn(vehicleCheckInBean);
+
+                                // sendData();
+                                // printBill();
+                                if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility")
+                                        .equals("1")) {
+                                    // print slip
+                                    try {
+                                        printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
+
+                                        btn_checkin.setClickable(false);
+                                        btn_checkin.setEnabled(false);
+                                    } catch (Exception e) {
+
+                                        e.printStackTrace();
+                                        resetallfield();
+                                    }
+                                } else {
+                                    // print slip
+                                    try {
+                                        printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
+                                        btn_checkin.setClickable(false);
+                                        btn_checkin.setEnabled(false);
+                                    } catch (Exception e) {
+                                        ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,
+                                                "printer not found");
+                                        e.printStackTrace();
+                                        resetallfield();
+                                    }
+
+                                }
+                                /*
+                                 * Thread.sleep(1000);
+                                 * closeBT();
+                                 */
+                                // printPhoto();
+                            } catch (Exception e) {
+                                resetallfield();
+                                btn_checkin.setClickable(true);
+                                btn_checkin.setEnabled(true);
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }
+                    // when mobile number is not default number
+                    else if (isValidMobile(et_owner_ph_no.getText().toString().trim())) {
+
+                        strMobileNumber = et_owner_ph_no.getText().toString().trim();
+
+                        String dateTime[] = getDateTime();
+                        String checkintime = dateTime[0] + " " + dateTime[1];
+
+                        if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
+
+                            bookingNumber = et_bookingid.getText().toString().trim();
+                            actualaccesscontrlamount = accesscontrolamount(checkintime);
+
+                        } else {
+                            // long currentTimeMillis ()-Returns the current time in milliseconds.
+                            long millis = System.currentTimeMillis();
+
+                            // Divide millis by 1000 to get the number of seconds.
+                            long seconds = millis / 1000;
+
+                            Log.e("booking_number", String.valueOf(seconds));
+
+                            /* bookingNumber = String.valueOf(seconds); */
+
+                            String parkingareaid = SharedStorage.getValue(getApplicationContext(), "parking_area_id");
+
+                            Log.e("parkingareaid", parkingareaid);
+
+                            if (parkingareaid.length() == 1) {
+                                parkingareaid = "00" + parkingareaid;
+                            } else if (parkingareaid.length() == 2) {
+                                parkingareaid = "0" + parkingareaid;
+                            }
+
+                            bookingNumber = parkingareaid + "-" + insertString(String.valueOf(seconds),
+                                    "-", 4);
+                        }
+
+                        Log.e("bookingNumber", bookingNumber);
+
+                        vehicleCheckInBean = null;
+                        // save values for offline use
+                        vehicleCheckInBean = new VehicleCheckInBean(strVehicleNumber, checkintime,
+                                String.valueOf(iVehicleType), strMobileNumber, passapplied, strStoreid, "0",
+                                bookingNumber, "0", 0);
+
+                        if (SharedStorage.getValue(OfflineCheckInActivity.this, "printer_name").equals("")) {
+                            et_owner_ph_no.setText("");
+                            radioGroup_vehicletype.clearCheck();
+                            spinner_Vehicle_Type.setSelection(iVehicleType);
+                            if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
+                                scanResults.setText("TS");
+                            } else {
+                                scanResults.setText("WB");
+                            }
+                            scanResults.setSelection(scanResults.getText().toString().length());
+
+                            /*
+                             * ShowAlertDialog.showAlertDialog(this,getResources().getString(R.string.
+                             * parking_succesfully));
+                             */
+
+                            final AlertDialog alertDialog = new AlertDialog.Builder(
+                                    this).create();
+
+                            final LayoutInflater inflater = this.getLayoutInflater();
+                            View dialogView = inflater.inflate(R.layout.custom_bill_dilog_new_simple, null);
+                            alertDialog.setView(dialogView);
+
+                            TextView msg_txt = (TextView) dialogView.findViewById(R.id.messageid);
+                            TextView txt_booking_no = (TextView) dialogView.findViewById(R.id.txt_booking_no);
+                            TextView txt_vechile_no = (TextView) dialogView.findViewById(R.id.txt_vechile_no);
+                            TextView txt_check_in_time = (TextView) dialogView.findViewById(R.id.txt_check_in_time);
+                            Button bt_cash = (Button) dialogView.findViewById(R.id.btnOk);
+                            Button bt_cancel = (Button) dialogView.findViewById(R.id.btnCancel);
+                            TextView title = (TextView) dialogView.findViewById(R.id.title);
+                            title.setText(getResources().getString(R.string.app_name_title));
+                            txt_booking_no.setText(vehicleCheckInBean.getBookingid());
+                            txt_vechile_no.setText(vehicleCheckInBean.getVehicle_number());
+                            txt_check_in_time.setText(vehicleCheckInBean.getCheckintime());
+                            bt_cash.setText(getResources().getString(R.string.ok));
+                            msg_txt.setText(getResources().getString(R.string.parking_succesfully));
+
+                            bt_cash.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    alertDialog.dismiss();
+                                    // add bean values to local database for offline use
+                                    databaseHandler.addofflineVehicleCheckIn(vehicleCheckInBean);
+
+                                }
+                            });
+
+                            bt_cancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    alertDialog.dismiss();
+                                    resetallfield();
+
+                                }
+                            });
+                            // Animate alert dialog box
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.setCustomAnimations(android.R.animator.fade_in,
+                                    android.R.animator.fade_out);
+                            // Showing Alert Message
+                            alertDialog.show();
+                            alertDialog.setCancelable(false);
+
+                        } else if (SharedStorage.getValue(OfflineCheckInActivity.this, "printer_name")
+                                .equals("eazy_Tap")) {
+
+                            final AlertDialog alertDialog = new AlertDialog.Builder(
+                                    this).create();
+
+                            final LayoutInflater inflater = this.getLayoutInflater();
+                            View dialogView = inflater.inflate(R.layout.custom_bill_dialog_new, null);
+                            alertDialog.setView(dialogView);
+
+                            TextView msg_txt = (TextView) dialogView.findViewById(R.id.messageid);
+                            TextView txt_booking_no = (TextView) dialogView.findViewById(R.id.txt_booking_no);
+                            TextView txt_vechile_no = (TextView) dialogView.findViewById(R.id.txt_vechile_no);
+                            TextView txt_check_in_time = (TextView) dialogView.findViewById(R.id.txt_check_in_time);
+                            Button bt_cash = (Button) dialogView.findViewById(R.id.bt_cash1);
+                            Button bt_cancel = (Button) dialogView.findViewById(R.id.bt_cancel1);
+                            TextView title = (TextView) dialogView.findViewById(R.id.title);
+                            title.setText(getResources().getString(R.string.app_name_title));
+                            txt_booking_no.setText(vehicleCheckInBean.getBookingid());
+                            txt_vechile_no.setText(vehicleCheckInBean.getVehicle_number());
+                            txt_check_in_time.setText(vehicleCheckInBean.getCheckintime());
+                            bt_cash.setText(getResources().getString(R.string.print));
+                            msg_txt.setText(getResources().getString(R.string.parking_succesfully));
+
+                            bt_cash.setOnClickListener(new View.OnClickListener() {
+                                @SuppressLint("NewApi")
+                                @Override
+                                public void onClick(View view) {
+                                    alertDialog.dismiss();
+                                    try {
+                                        // add bean values to local database for offline use
+                                        databaseHandler.addofflineVehicleCheckIn(vehicleCheckInBean);
+                                        // sendData();
+                                        // printBill();
+                                        if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility")
+                                                .equals("1")) {
+                                            // print slip
+                                            try {
+                                                // printEazytapBill();
+                                                // printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
+                                                printEazytapBillUsingSDK(vehicleCheckInBean.getVehicle_number());
+                                                btn_checkin.setClickable(true);
+                                                btn_checkin.setEnabled(true);
+                                            } catch (Exception e) {
+
+                                                e.printStackTrace();
+                                                resetallfield();
+                                            }
+                                        } else {
+                                            // print slip
+                                            try {
+                                                // printEazytapBill();
+                                                // printEazytapBillNew(vehicleCheckInBean.getVehicle_number());
+                                                printEazytapBillUsingSDK(vehicleCheckInBean.getVehicle_number());
+                                                btn_checkin.setClickable(true);
+                                                btn_checkin.setEnabled(true);
+                                            } catch (Exception e) {
+
+                                                e.printStackTrace();
+                                                resetallfield();
+                                                btn_checkin.setClickable(true);
+                                                btn_checkin.setEnabled(true);
+                                            }
+
+                                        }
+                                        /*
+                                         * Thread.sleep(1000);
+                                         * closeBT();
+                                         */
+                                        // printPhoto();
+                                    } catch (Exception e) {
+                                        btn_checkin.setClickable(true);
+                                        btn_checkin.setEnabled(true);
+                                        resetallfield();
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            });
+                            bt_cancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    alertDialog.dismiss();
+                                    resetallfield();
+
+                                }
+                            });
+                            // Animate alert dialog box
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.setCustomAnimations(android.R.animator.fade_in,
+                                    android.R.animator.fade_out);
+                            // Showing Alert Message
+                            alertDialog.show();
+                            alertDialog.setCancelable(false);
+
+                        }
+
+                    }
+                } else {
                     btn_checkin.setClickable(true);
                     btn_checkin.setEnabled(true);
                     ShowAlertDialog.showAlertDialog(this, getResources().getString(R.string.vld_vehicle_msg));
@@ -2230,63 +2229,63 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
             }
         }
-//        else if (view.getId() == R.id.btn_ScanQR) {
-//            try {
-//
-//                /*m_qrScan.initiateScan();*/
-//
-//                hideKeyboard(this);
-//                scan_linear.setVisibility(View.VISIBLE);
-//                scan_linear.setAnimation(bottomin);
-//                mScannerView = new ZXingScannerView(this);
-//                lay_scan.addView(mScannerView);
-//                mScannerView.setResultHandler(this);
-//                mScannerView.startCamera();
-//                mScannerView.setSoundEffectsEnabled(true);
-//                mScannerView.setAutoFocus(true);
-//
-//                //turn on flash light after 5pm
-//                String from = "6:00:00";
-//                String to = "16:59:59";
-//                String dateTime[] = getDateTime();
-//                String n = dateTime[2];
-//                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-//                Date date_from = formatter.parse(from);
-//                Date date_to = formatter.parse(to);
-//                Date dateNow = formatter.parse(n);
-//                if (date_from.before(dateNow) && date_to.after(dateNow)) {
-//                    mScannerView.setFlash(false);
-//                }else {
-//                    mScannerView.setFlash(true);
-//                }
-//
-//            } catch (Exception e) {
-//
-//                e.printStackTrace();
-//            }
-//        }
-//        else if (view.getId() == R.id.disable_scan_qr) {
-//            try {
-//
-//                mScannerView.stopCameraPreview();
-//                mScannerView.stopCamera();
-//                scan_linear.setVisibility(View.GONE);
-//                scan_linear.setAnimation(bottomout);
-//                lay_scan.removeAllViews();
-//
-//
-//            } catch (Exception e) {
-//
-//                e.printStackTrace();
-//            }
-//        }
-        else if(view.getId() == R.id.default_number_btn){
+        // else if (view.getId() == R.id.btn_ScanQR) {
+        // try {
+        //
+        // /*m_qrScan.initiateScan();*/
+        //
+        // hideKeyboard(this);
+        // scan_linear.setVisibility(View.VISIBLE);
+        // scan_linear.setAnimation(bottomin);
+        // mScannerView = new ZXingScannerView(this);
+        // lay_scan.addView(mScannerView);
+        // mScannerView.setResultHandler(this);
+        // mScannerView.startCamera();
+        // mScannerView.setSoundEffectsEnabled(true);
+        // mScannerView.setAutoFocus(true);
+        //
+        // //turn on flash light after 5pm
+        // String from = "6:00:00";
+        // String to = "16:59:59";
+        // String dateTime[] = getDateTime();
+        // String n = dateTime[2];
+        // SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        // Date date_from = formatter.parse(from);
+        // Date date_to = formatter.parse(to);
+        // Date dateNow = formatter.parse(n);
+        // if (date_from.before(dateNow) && date_to.after(dateNow)) {
+        // mScannerView.setFlash(false);
+        // }else {
+        // mScannerView.setFlash(true);
+        // }
+        //
+        // } catch (Exception e) {
+        //
+        // e.printStackTrace();
+        // }
+        // }
+        // else if (view.getId() == R.id.disable_scan_qr) {
+        // try {
+        //
+        // mScannerView.stopCameraPreview();
+        // mScannerView.stopCamera();
+        // scan_linear.setVisibility(View.GONE);
+        // scan_linear.setAnimation(bottomout);
+        // lay_scan.removeAllViews();
+        //
+        //
+        // } catch (Exception e) {
+        //
+        // e.printStackTrace();
+        // }
+        // }
+        else if (view.getId() == R.id.default_number_btn) {
             StringBuilder defaultnumber = new StringBuilder();
 
-            for(int i = 0;i<=getResources().getString(R.string.defaultmobilenumber).length();i++){
-                if(i>=5){
+            for (int i = 0; i <= getResources().getString(R.string.defaultmobilenumber).length(); i++) {
+                if (i >= 5) {
                     defaultnumber.append("X");
-                }else{
+                } else {
                     defaultnumber.append(getResources().getString(R.string.defaultmobilenumber).charAt(i));
                 }
             }
@@ -2300,55 +2299,61 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
     private void callBT_forboom() {
         start_progress_dialog();
-        String login_url = "http://"+SharedStorage.getValue(getApplicationContext(),"ip")+"/bbctrl";;
+        String login_url = "http://" + SharedStorage.getValue(getApplicationContext(), "ip") + "/bbctrl";
+        ;
         remoteAsync = new RemoteAsync(login_url);
         remoteAsync.type = RemoteAsync.BBCTRL;
         remoteAsync.delegate = this;
 
-//        GateOpenBoomBarrierBean gateOpenBoomBarrierBean= new GateOpenBoomBarrierBean(Integer.valueOf(status));
-//
-//        Gson gson = new Gson();
+        // GateOpenBoomBarrierBean gateOpenBoomBarrierBean= new
+        // GateOpenBoomBarrierBean(Integer.valueOf(status));
+        //
+        // Gson gson = new Gson();
 
         String urlParams = "";
         try {
 
-            /*********convert bean class values from Json to Gson ******/
-            //  urlParams = gson.toJson(gateOpenBoomBarrierBean);
-            //  urlParams = "status=" + URLEncoder.encode(status, "UTF-8") ;
+            /********* convert bean class values from Json to Gson ******/
+            // urlParams = gson.toJson(gateOpenBoomBarrierBean);
+            // urlParams = "status=" + URLEncoder.encode(status, "UTF-8") ;
 
         } catch (Exception e) {
             Log.e("ParamsException-->", e.getMessage());
         }
 
-        Log.e("urlParams----->",urlParams);
+        Log.e("urlParams----->", urlParams);
         remoteAsync.execute(urlParams);
     }
 
     private void hideKeyboard(Activity activity) {
 
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
+        // Find the currently focused view, so we can grab the correct window token from
+        // it.
         View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        // If no view currently has focus, create a new one, just so we can grab a
+        // window token from it
         if (view == null) {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    //for amount calculation depending on checkin time
-    private String accesscontrolamount(String checkin_time){
+    // for amount calculation depending on checkin time
+    private String accesscontrolamount(String checkin_time) {
         String amount = "";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
         String dateTime[] = getDateTime();
-        String actualcheckintime ="";
+        String actualcheckintime = "";
         String accesscheckintime = "";
-        accesscheckintime = et_checkinDate.getText().toString().trim() + " " + et_checkinTime.getText().toString().trim();
+        accesscheckintime = et_checkinDate.getText().toString().trim() + " "
+                + et_checkinTime.getText().toString().trim();
         actualcheckintime = checkin_time;
         Date date1 = null;
         try {
-            date1 = simpleDateFormat.parse(et_checkinDate.getText().toString().trim() + " " + et_checkinTime.getText().toString().trim());
+            date1 = simpleDateFormat.parse(
+                    et_checkinDate.getText().toString().trim() + " " + et_checkinTime.getText().toString().trim());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -2368,7 +2373,6 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         int min = (int) (difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hours)) / (1000 * 60);
         hours = (hours < 0 ? -hours : hours);
 
-
         if ((difference - (1000 * 60 * 60 * 24 * days) - (1000 * 60 * 60 * hours)) / (1000 * 60) != 0.0) {
 
             min++;
@@ -2380,27 +2384,31 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         int firstaccessendtime = 0;
         int secondaccessendtime = 0;
         int thirdaccessendtime = 0;
-        /*int fourthaccessendtime = 0;*/
+        /* int fourthaccessendtime = 0; */
 
         firstaccessendtime = Integer.parseInt(dataModel.freeParkingPriceTypeArrayList.get(0).getEndTime());
         secondaccessendtime = Integer.parseInt(dataModel.freeParkingPriceTypeArrayList.get(1).getEndTime());
         thirdaccessendtime = Integer.parseInt(dataModel.freeParkingPriceTypeArrayList.get(2).getEndTime());
-        /*fourthaccessendtime = Integer.parseInt(dataModel.freeParkingPriceTypeArrayList.get(3).getEndTime());*/
-        if(min > firstaccessendtime){
+        /*
+         * fourthaccessendtime =
+         * Integer.parseInt(dataModel.freeParkingPriceTypeArrayList.get(3).getEndTime())
+         * ;
+         */
+        if (min > firstaccessendtime) {
 
-            if(min > secondaccessendtime){
-                if(min > thirdaccessendtime){
+            if (min > secondaccessendtime) {
+                if (min > thirdaccessendtime) {
 
                     amount = dataModel.freeParkingPriceTypeArrayList.get(3).getPrice();
-                }else {
+                } else {
                     amount = dataModel.freeParkingPriceTypeArrayList.get(2).getPrice();
                 }
 
-            }else {
+            } else {
                 amount = dataModel.freeParkingPriceTypeArrayList.get(1).getPrice();
             }
 
-        }else {
+        } else {
             amount = dataModel.freeParkingPriceTypeArrayList.get(0).getPrice();
         }
 
@@ -2409,23 +2417,23 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
     private void resetallfield() {
 
-        if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+        if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
             et_checkinTime.setText("");
-            //long currentTimeMillis ()-Returns the current time in milliseconds.
+            // long currentTimeMillis ()-Returns the current time in milliseconds.
             long millis = System.currentTimeMillis();
 
-            //Divide millis by 1000 to get the number of seconds.
+            // Divide millis by 1000 to get the number of seconds.
             long seconds = millis / 1000;
 
             Log.e("seconds_booking", String.valueOf(seconds));
 
             parkingareaid = SharedStorage.getValue(getApplicationContext(), "parking_area_id");
 
-            Log.e("parkingareaid",parkingareaid);
+            Log.e("parkingareaid", parkingareaid);
 
-            if (parkingareaid.length() == 1){
+            if (parkingareaid.length() == 1) {
                 parkingareaid = "00" + parkingareaid;
-            }else if (parkingareaid.length() == 2){
+            } else if (parkingareaid.length() == 2) {
                 parkingareaid = "0" + parkingareaid;
             }
 
@@ -2437,7 +2445,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
             et_bookingid.setSelection(et_bookingid.getText().toString().length());
         }
         et_owner_ph_no.setText("");
-       // radioGroup_vehicletype.clearCheck();
+        // radioGroup_vehicletype.clearCheck();
         spinner_Vehicle_Type.setSelection(iVehicleType);
         if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
             scanResults.setText(getResources().getString(R.string.statecode_ts));
@@ -2447,76 +2455,84 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
         scanResults.setSelection(scanResults.getText().toString().length());
     }
+
     private boolean validate() {
 
         boolean result = true;
 
-
-        if (!SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+        if (!SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
             if (et_owner_ph_no.getText().toString().equals("")) {
-                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this, getResources().getString(R.string.phone_vnumber));
+                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,
+                        getResources().getString(R.string.phone_vnumber));
                 result = false;
                 return result;
             }
         }
 
-
-        if (!SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")) {
+        if (!SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
 
             if (et_owner_ph_no.getText().toString().length() != 10) {
-                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this, getResources().getString(R.string.phone_vnumber));
+                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,
+                        getResources().getString(R.string.phone_vnumber));
                 result = false;
                 return result;
             }
         }
-        if(iVehicleType == 0){
-            ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this, getResources().getString(R.string.vehicle_type_vld));
+        if (iVehicleType == 0) {
+            ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,
+                    getResources().getString(R.string.vehicle_type_vld));
             result = false;
             return result;
         }
 
-//        if ( radiocheck[0].equals("") ){
-//
-//            ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,getResources().getString(R.string.vehicle_type));
-//            result = false;
-//            return result;
-//        }
+        // if ( radiocheck[0].equals("") ){
+        //
+        // ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,getResources().getString(R.string.vehicle_type));
+        // result = false;
+        // return result;
+        // }
 
-        if (/*scanResults.getText().toString().equals("") ||*/ scanResults.getText().toString().length()<6){
-            ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,getResources().getString(R.string.vehicle_num_vld));
+        if (/* scanResults.getText().toString().equals("") || */ scanResults.getText().toString().length() < 6) {
+            ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,
+                    getResources().getString(R.string.vehicle_num_vld));
             result = false;
             return result;
         }
-        if(SharedStorage.getValue(getApplicationContext(),"is_special_pass_available").equals("1")){
-            if(check_pass.isChecked()){
-                if(strStoreid.equals("0")){
-                    ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,getResources().getString(R.string.validate_storepass));
+        if (SharedStorage.getValue(getApplicationContext(), "is_special_pass_available").equals("1")) {
+            if (check_pass.isChecked()) {
+                if (strStoreid.equals("0")) {
+                    ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,
+                            getResources().getString(R.string.validate_storepass));
                     result = false;
                     return result;
                 }
             }
         }
 
-        if(SharedStorage.getValue(getApplicationContext(),"FreeParkingFacility").equals("1")){
+        if (SharedStorage.getValue(getApplicationContext(), "FreeParkingFacility").equals("1")) {
             if (et_bookingid.getText().toString().equals("")) {
-                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this, getResources().getString(R.string.booking_validid));
+                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,
+                        getResources().getString(R.string.booking_validid));
                 result = false;
                 return result;
             }
 
-            if (et_bookingid.getText().toString().trim().length() < 15){
-                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this, getResources().getString(R.string.booking_validid));
+            if (et_bookingid.getText().toString().trim().length() < 15) {
+                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,
+                        getResources().getString(R.string.booking_validid));
                 result = false;
                 return result;
             }
 
             if (et_checkinDate.getText().toString().equals("")) {
-                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this, getResources().getString(R.string.checking_vdate));
+                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,
+                        getResources().getString(R.string.checking_vdate));
                 result = false;
                 return result;
             }
             if (et_checkinTime.getText().toString().equals("")) {
-                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this, getResources().getString(R.string.checking_vtime));
+                ShowAlertDialog.showAlertDialog(OfflineCheckInActivity.this,
+                        getResources().getString(R.string.checking_vtime));
                 result = false;
                 return result;
             }
@@ -2524,41 +2540,40 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         return result;
     }
 
-    public static boolean isValid(String str){
+    public static boolean isValid(String str) {
         boolean isValid = false;
         String expression = "^[a-z_A-Z][a-z_A-Z0-9]*[0-9]$";
         CharSequence inputStr = str;
         Pattern pattern = Pattern.compile(expression);
         Matcher matcher = pattern.matcher(inputStr);
-        if(matcher.matches())
-        {
+        if (matcher.matches()) {
             isValid = true;
         }
         return isValid;
     }
 
     void start_progress_dialog() {
-        try{
+        try {
             progressDialog = new SpotsDialog(OfflineCheckInActivity.this, R.style.CustomWaitDialog);
             progressDialog.setCancelable(false);
             progressDialog.show();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            Crashlytics.log(Log.ERROR,"SParkingAgent_startprogress",e.getMessage());
+            Crashlytics.log(Log.ERROR, "SParkingAgent_startprogress", e.getMessage());
         }
 
     }
 
     void stop_progress_dialog() {
 
-        if(progressDialog!=null){
+        if (progressDialog != null) {
 
-            try{
+            try {
                 progressDialog.dismiss();
-                progressDialog=null;
-            }catch (Exception e){
+                progressDialog = null;
+            } catch (Exception e) {
                 e.printStackTrace();
-                Crashlytics.log(Log.ERROR,"SParkingAgent_stopprogress",e.getMessage());
+                Crashlytics.log(Log.ERROR, "SParkingAgent_stopprogress", e.getMessage());
             }
         }
     }
@@ -2574,16 +2589,13 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                     return "";
                 }
 
-
-//                if (source != null && blockCharacterSet.contains(("" + source.charAt(i)))) {
-//                    return source.toString().substring(start,source.toString().length()-1);
-//                }
+                // if (source != null && blockCharacterSet.contains(("" + source.charAt(i)))) {
+                // return source.toString().substring(start,source.toString().length()-1);
+                // }
             }
             return null;
         }
     };
-
-
 
     void beginListenForData() {
         try {
@@ -2619,8 +2631,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                                         System.arraycopy(
                                                 readBuffer, 0,
                                                 encodedBytes, 0,
-                                                encodedBytes.length
-                                        );
+                                                encodedBytes.length);
 
                                         // specify US-ASCII encoding
                                         final String data = new String(encodedBytes, "US-ASCII");
@@ -2629,7 +2640,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                                         // tell the user data were sent to bluetooth printer device
                                         handler.post(new Runnable() {
                                             public void run() {
-                                                Log.e("data",data);
+                                                Log.e("data", data);
                                                 // tv_device_name.setText(data);
                                             }
                                         });
@@ -2658,62 +2669,61 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
     }
 
     public Bitmap pad(Bitmap Src, int padding_x, int padding_y) {
-        Bitmap outputimage = Bitmap.createBitmap(Src.getWidth() + padding_x,Src.getHeight() + padding_y, Bitmap.Config.ARGB_8888);
+        Bitmap outputimage = Bitmap.createBitmap(Src.getWidth() + padding_x, Src.getHeight() + padding_y,
+                Bitmap.Config.ARGB_8888);
         Canvas can = new Canvas(outputimage);
-        can.drawARGB(0xFF,0xFF,0xFF,0xFF); //This represents White color
+        can.drawARGB(0xFF, 0xFF, 0xFF, 0xFF); // This represents White color
         can.drawBitmap(Src, padding_x, padding_y, null);
         return outputimage;
     }
 
-
     private String[] getDateTime() {
         final Calendar c = Calendar.getInstance();
-        String dateTime [] = new String[3];
-        int day =c.get(Calendar.DAY_OF_MONTH);
-        int month =c.get(Calendar.MONTH)+1;
-        String sday ="";
-        String sMonth ="";
+        String dateTime[] = new String[3];
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH) + 1;
+        String sday = "";
+        String sMonth = "";
 
-        if (month<10){
-            sMonth="0"+String.valueOf(month);
-        }else{
-            sMonth=String.valueOf(month);
+        if (month < 10) {
+            sMonth = "0" + String.valueOf(month);
+        } else {
+            sMonth = String.valueOf(month);
         }
         if (day < 10) {
-            sday = "0"+String.valueOf(day);
+            sday = "0" + String.valueOf(day);
         } else {
             sday = String.valueOf(day);
         }
-        dateTime[0] = c.get(Calendar.YEAR) +"-"+ sMonth +"-"+ sday;
-        //dateTime[1] = c.get(Calendar.HOUR_OF_DAY) +":"+ c.get(Calendar.MINUTE);
-        String curTimeSec = String.format("%02d:%02d:%02d",c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND));
-        String curTime = String.format("%02d:%02d",c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE));
+        dateTime[0] = c.get(Calendar.YEAR) + "-" + sMonth + "-" + sday;
+        // dateTime[1] = c.get(Calendar.HOUR_OF_DAY) +":"+ c.get(Calendar.MINUTE);
+        String curTimeSec = String.format("%02d:%02d:%02d", c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
+                c.get(Calendar.SECOND));
+        String curTime = String.format("%02d:%02d", c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE));
         dateTime[1] = curTime;
         dateTime[2] = curTimeSec;
         return dateTime;
     }
 
-
     @Override
     public void onBackPressed() {
-        dataModel.details_shown="1";
+        dataModel.details_shown = "1";
         dataModel.about_advanced_dash = 0;
 
-        if(scan_linear.getVisibility() == View.VISIBLE){
+        if (scan_linear.getVisibility() == View.VISIBLE) {
             try {
 
-               // mScannerView.stopCameraPreview();
-                //mScannerView.stopCamera();
+                // mScannerView.stopCameraPreview();
+                // mScannerView.stopCamera();
                 scan_linear.setVisibility(View.GONE);
                 scan_linear.setAnimation(bottomout);
                 lay_scan.removeAllViews();
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
-
-        }else {
+        } else {
             try {
                 closeBT();
             } catch (Exception e) {
@@ -2729,35 +2739,38 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         try {
             stopWorker = true;
 
-            if (mmOutputStream != null){
+            if (mmOutputStream != null) {
 
                 mmOutputStream.close();
                 mmInputStream.close();
                 mmSocket.close();
             }
 
-            /*myLabel.setText("Bluetooth Closed");*/
+            /* myLabel.setText("Bluetooth Closed"); */
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public Bitmap StringToBitMap(String encodedString){
-        try{
-            byte [] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+    public Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
 
-            /*Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);*/
+            /*
+             * Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0,
+             * encodeByte.length);
+             */
             Bitmap bitmap = Bitmap.createBitmap(200, 50, Bitmap.Config.RGB_565);
             Canvas canvas = new Canvas(bitmap);
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setColor(Color.WHITE);
             float scale = getResources().getDisplayMetrics().density;
-            //paint.setTextSize((int) (25 * scale));
+            // paint.setTextSize((int) (25 * scale));
             paint.setTextSize(16);
 
             canvas.drawText(encodedString, 200, 50, paint);
             return bitmap;
-        }catch(Exception e){
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }
@@ -2768,11 +2781,9 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         CharSequence inputString = phone;
         Pattern pattern = Pattern.compile(expression);
         Matcher matcher = pattern.matcher(inputString);
-        if (matcher.matches())
-        {
+        if (matcher.matches()) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -2793,36 +2804,36 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
             String checkintim = et_checkinTime.getText().toString().trim();
 
-            //set : automatic after 2 digits
-            if (checkintim.contains(":")){
+            // set : automatic after 2 digits
+            if (checkintim.contains(":")) {
 
                 Log.e("charSequence", String.valueOf(charSequence));
                 Log.e("checkintim1", checkintim);
 
-                if (charSequence.length() == 3){
+                if (charSequence.length() == 3) {
                     et_checkinTime.setSelection(et_checkinTime.getText().toString().length());
                 }
 
-            }else{
-                if (charSequence.length() == 2){
+            } else {
+                if (charSequence.length() == 2) {
                     Log.e("charSequence", String.valueOf(charSequence));
                     Log.e("checkintim2", checkintim);
-                    //checkintim = et_checkinTime.getText().toString().trim();
+                    // checkintim = et_checkinTime.getText().toString().trim();
                     checkintim += ":";
 
                     Log.e("checkintim3", checkintim);
 
                     et_checkinTime.setText(checkintim);
                     et_checkinTime.setSelection(et_checkinTime.getText().toString().length());
-                }else if (charSequence.length()== 1){
+                } else if (charSequence.length() == 1) {
 
                     Log.e("checkintim4", checkintim);
 
                     // checkintim = et_checkinTime.getText().toString().trim();
-                    if (checkintim.contains(":")){
+                    if (checkintim.contains(":")) {
                         Log.e("checkintim5", checkintim);
 
-                        et_checkinTime.setText(checkintim.replaceAll(":",""));
+                        et_checkinTime.setText(checkintim.replaceAll(":", ""));
                         et_checkinTime.setSelection(et_checkinTime.getText().toString().length());
                     }
                 }
@@ -2834,26 +2845,27 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         }
 
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static long betweenDates(Date firstDate, Date secondDate) throws IOException
-    {
+    public static long betweenDates(Date firstDate, Date secondDate) throws IOException {
         return ChronoUnit.DAYS.between(firstDate.toInstant(), secondDate.toInstant());
     }
 
-    public static long betweenDateslowversion(Date firstDate, Date secondDate) throws IOException
-    {
+    public static long betweenDateslowversion(Date firstDate, Date secondDate) throws IOException {
         long msDiff = secondDate.getTime() - firstDate.getTime();
         long daysDiff = TimeUnit.MILLISECONDS.toDays(msDiff);
         return daysDiff;
     }
+
     // for verifone printer
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-//        if (resultCode == 2) {
-//
-//            String returnedResult = intent.getData().toString().trim().replaceAll(" ", "");
-//            scanResults.setText(returnedResult);
-//        }
+        // if (resultCode == 2) {
+        //
+        // String returnedResult = intent.getData().toString().trim().replaceAll(" ",
+        // "");
+        // scanResults.setText(returnedResult);
+        // }
         if (requestCode == REQUEST_CODE_PRINT_BITMAP) {
             try {
                 if (intent != null && intent.hasExtra("response")) {
@@ -2872,9 +2884,9 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
 
                             @Override
                             public void run() {
-                                try{
+                                try {
                                     callBT_forboom();
-                                }catch(Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -2914,7 +2926,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                                 }
                             }
                         });
-                        //Animate alert dialog box
+                        // Animate alert dialog box
                         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
                         ft.setCustomAnimations(android.R.animator.fade_in,
                                 android.R.animator.fade_out);
@@ -2922,9 +2934,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                         alertDialog.show();
                         alertDialog.setCancelable(false);
 
-
-                    }
-                    else{
+                    } else {
                         JSONObject response = new JSONObject(intent.getStringExtra("response"));
                         response = response.getJSONObject("error");
                         String errorCode = response.getString("code");
@@ -2958,7 +2968,7 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                                 }
                             }
                         });
-                        //Animate alert dialog box
+                        // Animate alert dialog box
                         FragmentTransaction ft = this.getFragmentManager().beginTransaction();
                         ft.setCustomAnimations(android.R.animator.fade_in,
                                 android.R.animator.fade_out);
@@ -2966,34 +2976,33 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
                         alertDialog.show();
                         alertDialog.setCancelable(false);
                     }
-                }
-                else{
+                } else {
                     // Show dialog : Text : "Printer Error, Data null from Ezetap : " + resultCode
                     ShowAlertDialog.showAlertDialog(this, "Printer Error, Data null from Ezetap : " + resultCode);
                 }
 
-
             } catch (Exception e) {
                 e.printStackTrace();
-                //  ShowAlertDialog.showAlertDialog(this, e.getMessage());
+                // ShowAlertDialog.showAlertDialog(this, e.getMessage());
                 // Do your exception handling
             }
         }
     }
+
     // for location line break
-    public static String[] breakStringToLines(String str, int maxLength)
-    {
+    public static String[] breakStringToLines(String str, int maxLength) {
         StringBuilder result = new StringBuilder();
-        while (str.length() > maxLength)
-        {
+        while (str.length() > maxLength) {
             // Attempt to break on whitespace first,
             int breakingIndex = lastIndexOfRegex(str, "\\s", maxLength);
 
             // Then on other non-alphanumeric characters,
-            if (breakingIndex == NOT_FOUND) breakingIndex = lastIndexOfRegex(str, "[^a-zA-Z0-9]", maxLength);
+            if (breakingIndex == NOT_FOUND)
+                breakingIndex = lastIndexOfRegex(str, "[^a-zA-Z0-9]", maxLength);
 
             // And if all else fails, break in the middle of the word
-            if (breakingIndex == NOT_FOUND) breakingIndex = maxLength;
+            if (breakingIndex == NOT_FOUND)
+                breakingIndex = maxLength;
 
             // Append each prepared line to the builder
             result.append(str.substring(0, breakingIndex + 1));
@@ -3004,24 +3013,22 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         }
 
         // Check if there are any residual characters left
-        if (str.length() > 0)
-        {
+        if (str.length() > 0) {
             result.append(str);
         }
 
         // Return the resulting string
         return result.toString().split("\n");
     }
+
     // lastIndexOfRegex
-    public static int lastIndexOfRegex(String str, String toFind, int fromIndex)
-    {
+    public static int lastIndexOfRegex(String str, String toFind, int fromIndex) {
         // Limit the search by searching on a suitable substring
         return lastIndexOfRegex(str.substring(0, fromIndex), toFind);
     }
 
-    //lastIndexOfRegex
-    public static int lastIndexOfRegex(String str, String toFind)
-    {
+    // lastIndexOfRegex
+    public static int lastIndexOfRegex(String str, String toFind) {
         Pattern pattern = Pattern.compile(toFind);
         Matcher matcher = pattern.matcher(str);
 
@@ -3029,14 +3036,11 @@ public class OfflineCheckInActivity extends AppCompatActivity implements View.On
         int lastIndex = NOT_FOUND;
 
         // Search for the given pattern
-        while (matcher.find())
-        {
+        while (matcher.find()) {
             lastIndex = matcher.start();
         }
 
         return lastIndex;
     }
-
-
 
 }

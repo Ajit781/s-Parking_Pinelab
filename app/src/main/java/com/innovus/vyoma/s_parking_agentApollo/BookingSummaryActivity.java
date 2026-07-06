@@ -1597,7 +1597,7 @@ public class BookingSummaryActivity extends AppCompatActivity implements View.On
         try {
             // Header
             JSONObject header = new JSONObject();
-            header.put("ApplicationId", "8673ddad1b064f25aa3a25c00691fc8f"); // Your Application ID
+            header.put("ApplicationId", "8754f022bd7f475a9f29284a656d3401"); // Your Application ID
 //            header.put("ApplicationId", "8754f022bd7f475a9f29284a656d3401");
             header.put("MethodId", "1002");          // PrintData method ID
             header.put("VersionNo", "1.0");

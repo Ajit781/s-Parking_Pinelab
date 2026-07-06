@@ -98,7 +98,11 @@ public class VechileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        final DataObject allNewsBean = AllLatestNewsBeanArrayList.get(holder.getAdapterPosition());
+        int adapterPos = holder.getAdapterPosition();
+        if (adapterPos == RecyclerView.NO_ID || adapterPos < 0 || adapterPos >= AllLatestNewsBeanArrayList.size()) {
+            return; // View is being recycled or position is stale — skip safely
+        }
+        final DataObject allNewsBean = AllLatestNewsBeanArrayList.get(adapterPos);
         switch (holder.getItemViewType()) {
             case 1: {
                 final MyViewHolder viewholder = (MyViewHolder) holder;
@@ -173,9 +177,9 @@ public class VechileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public int getItemViewType(int position) {
-        /*if(newslist.get(position)==null)
-            return AD_TYPE;
-        return CONTENT_TYPE;*/
+        if (position < 0 || position >= AllLatestNewsBeanArrayList.size()) {
+            return 1; // safe default
+        }
         return AllLatestNewsBeanArrayList.get(position).getViewtype();
     }
 
@@ -199,13 +203,24 @@ public class VechileListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void setFilter(List<DataObject> homeListLoadBeanList) {
-        if(homeListLoadBeanList.size()>0){
-            AllLatestNewsBeanArrayList = new ArrayList<>();
+        // Mutate the SAME list instance (never replace the reference — that desynchronises the adapter)
+        AllLatestNewsBeanArrayList.clear();
+        if (homeListLoadBeanList != null && homeListLoadBeanList.size() > 0) {
             AllLatestNewsBeanArrayList.addAll(homeListLoadBeanList);
-            notifyDataSetChanged();
-        }else {
-            notifyDataSetChanged();
         }
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Replaces the full dataset and refreshes the list.
+     * Use this instead of recreating the adapter from the Activity.
+     */
+    public void updateList(List<DataObject> newList) {
+        AllLatestNewsBeanArrayList.clear();
+        if (newList != null) {
+            AllLatestNewsBeanArrayList.addAll(newList);
+        }
+        notifyDataSetChanged();
     }
 
     private String numberformat(String numberformat) {

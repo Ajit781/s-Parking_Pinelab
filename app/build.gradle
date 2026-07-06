@@ -18,15 +18,16 @@ apply plugin: 'com.android.application'
 
 
 android {
+    namespace 'com.innovus.vyoma.s_parking_agentApollo'
     signingConfigs {
         debug {
-            storeFile file('D:\\biplab\\sparking\\sparkingcopy\\SParkingAgent\\keystore.jks')
+            storeFile file('../keystore.jks')
             storePassword '123456'
             keyAlias 'key'
             keyPassword '123456'
         }
         release {
-            storeFile file('D:\\biplab\\sparking\\sparkingcopy\\SParkingAgent\\keystore.jks')
+            storeFile file('../keystore.jks')
             storePassword '123456'
             keyAlias 'key'
             keyPassword '123456'
@@ -38,8 +39,8 @@ android {
         applicationId "com.innovus.vyoma.s_parking_agentApollo"
         minSdkVersion 23
         targetSdkVersion 35
-        versionCode 5
-        versionName '1.5'
+        versionCode 6
+        versionName '1.6'
         multiDexEnabled true
         generatedDensities = []
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -91,9 +92,6 @@ android {
 
     repositories {
         mavenCentral()
-        flatDir {
-            dirs 'libs'
-        }
     }
     packagingOptions {
         exclude 'META-INF/NOTICE.txt'
@@ -106,11 +104,6 @@ android {
         exclude 'META-INF/MANIFEST.MF'
     }
     useLibrary 'org.apache.http.legacy'
-    dexOptions {
-        preDexLibraries = false
-        incremental true
-        javaMaxHeapSize "4g"
-    }
     productFlavors {
     }
 

@@ -13,8 +13,6 @@ public class Urls {
     public static final String url_product="https://www.s-parking.com/sParkingAppVersion/";
     public String url=dataModel.url;
 
-
-
     public  String GetAuthentication = url+"GetAuthentication";
     public  String GetLoginUser = url+"GetLoginUser";
     public  String GetLoginUserV10 = url+"GetLoginUserV10";
@@ -35,7 +33,7 @@ public class Urls {
     public  String PaymentCollection = url+"PaymentCollection";
     public  String VehicleTypeList = url+"VehicleTypeList";
     public  String SetEzetapTransactionLog = url+"SetEzetapTransactionLog";
-    //public  String CheckAppVersion = url + "CheckAppVersion";
+ // public  String CheckAppVersion = url + "CheckAppVersion";
     public  String SpecialPassList = url + "SpecialPassList";
     public  static final String CheckAppVersion = url_product + "CheckAppVersion.php";
     public  String GenerateAuthToken = url + "GenerateAuthToken";
@@ -48,4 +46,5 @@ public class Urls {
     public  String AdvBookingAcceptOrDeclineByAgent = url + "AdvBookingAcceptOrDeclineByAgent";
     public  String GetAdvBookingAcceptByAgentDetails = url + "GetAdvBookingAcceptByAgentDetails";
     public  String AdvanceBookingVehicleCheckin = url + "AdvanceBookingVehicleCheckin";
+
 }

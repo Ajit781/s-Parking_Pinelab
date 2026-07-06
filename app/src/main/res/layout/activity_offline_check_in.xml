@@ -504,6 +504,7 @@
                             android:layout_gravity="left"
                             android:theme="@style/MyEditText"
                             android:textColor="@color/white"
+                            android:visibility="gone"
                             android:gravity="center"/>
                         <TextView
                             android:layout_width="wrap_content"

@@ -17,7 +17,7 @@ public class Constants {
     public static final String NORMAL_CHECKIN = "100";
 
 
-    /*public static final String USER_INPUT = "userinput";
+   /*public static final String USER_INPUT = "userinput";
     public static final String PASSWORD = "password";
     public static final String DEVICE_ID = "deviceid";
     public static final String DEVICE_TYPE = "devicetype";
@@ -25,4 +25,5 @@ public class Constants {
     public static final String LOGIN_TYPE = "logintype";
     public static final String PUSH_ID = "pushid";
     public static final String LOGIN_FLAG = "LOGIN_FLAG";*/
+
 }

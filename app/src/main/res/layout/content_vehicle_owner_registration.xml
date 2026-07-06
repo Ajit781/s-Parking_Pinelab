@@ -26,7 +26,7 @@
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_7sdp"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <FrameLayout
                 android:layout_width="fill_parent"
